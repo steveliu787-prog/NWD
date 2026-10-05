@@ -215,6 +215,14 @@
       letter-spacing: 0;
     }
 
+    .brand-logo {
+      display: block;
+      width: 230px;
+      height: 40px;
+      object-fit: contain;
+      object-position: left center;
+    }
+
     .desktop-nav {
       display: flex;
       align-items: center;
@@ -2231,6 +2239,11 @@
         min-width: 0;
       }
 
+      .brand-logo {
+        width: 132px;
+        height: 36px;
+      }
+
       .brand-copy strong {
         font-size: 14px;
       }
@@ -2695,13 +2708,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="#home" data-route="home" aria-label="新世界人才中心首页">
-        <span class="brand-mark">
-          <svg class="icon" aria-hidden="true"><use href="#icon-compass"></use></svg>
-        </span>
-        <span class="brand-copy">
-          <strong>新世界人才中心</strong>
-          <small>Talent &amp; Growth</small>
-        </span>
+        <img class="brand-logo" src="assets/images/brand-logo.webp" alt="新世界人才中心" width="474" height="62">
       </a>
 
       <nav class="desktop-nav" aria-label="主导航">
