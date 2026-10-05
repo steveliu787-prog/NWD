@@ -44,7 +44,24 @@
     "text:stories:blockquote::2": "“When projects hit obstacles, our priority is to solve problems rather than blame. I was promoted from frontline staff over 12 years, with opportunities across different projects.”",
     "text:philosophy:p::1": "",
     "text:footer:a::22": "人才发展计划",
-    "text:footer:span::66": "+852 77778888"
+    "text:footer:span::66": "+852 77778888",
+    "text:growth:p:eyebrow:0": "",
+    "text:growthTitle:h2::1": "人才发展项目",
+    "text:growth:p::1": "",
+    "text:growth:h3::0": "介绍",
+    "text:growth:p::2": "新世界发展为在校学生、应届毕业生及在职员工提供系统化的职业发展路径。我们的培养体系聚焦跨境实践历练、专业能力提升以及领导力培育，覆盖香港及大湾区。",
+    "text:growth:span:phase-duration:1": "",
+    "text:growth:span:phase-duration:0": "",
+    "text:growth:h4::0": "毕业生发展计划",
+    "text:growth:p::3": "我们为应届毕业生提供系统化领导力培训与导师辅导。参与者可获得跨部门项目实战经验，为未来担任管理岗位夯实基础。",
+    "text:growth:span:phase-duration:3": "",
+    "text:growth:span:phase-duration:2": "",
+    "text:growth:h4::1": "实习体验项目",
+    "text:growth:p::4": "我们的实习项目提供真实职场历练与专业指导。学生能够在实际商业项目中锻炼实操能力，建立行业认知。",
+    "text:growth:span:phase-duration:5": "",
+    "text:growth:span:phase-duration:4": "",
+    "text:growth:h4::2": " 在职成长计划",
+    "text:growth:p::5": "我们助力员工持续职业发展。定期举办研习课程与技能提升资源，帮助人才增强综合能力，拓展职业发展空间。"
   },
   "zh-HK": {},
   "en": {},
@@ -93,6 +110,14 @@
       "el:view-home:div:hero-content:0": {
         "dx": -2,
         "dy": -56
+      },
+      "text:growth:h4::0": {
+        "dx": -2,
+        "dy": 0
+      },
+      "text:growth:p::3": {
+        "dx": -1,
+        "dy": 5
       }
     },
     "sizes": {
