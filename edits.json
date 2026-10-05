@@ -4,20 +4,126 @@
     "text:view-home:p:hero-lead:0": "从城市空间到商业服务，我们为愿意持续成长的人，提供多元业务、真实项目和清晰的长期发展通道。",
     "text:philosophy:span:principle-number:3": "04",
     "text:philosophy:span:principle-number:2": "03",
-    "text:view-home:li::2": "成果导向评估",
-    "image:benefit-flexible.jpg": "assets/edits/benefit-flexible-ab3e35c4.jpg",
-    "text:benefits:h3::0": "弹性工作安排test",
-    "image:benefit-health.jpg": "assets/edits/benefit-health-fe21c22a.jpg",
-    "text:benefits:h3::1": "健康与家庭保障",
-    "text:benefits:h3::2": "年度学习基金test",
-    "text:benefits:p::2": "核心时段协作与自主安排结合，支持混合办公、错峰通勤和个人事务协调。"
+    "text:view-home:li::2": "",
+    "image:benefit-flexible.jpg": "assets/edits/benefit-flexible-d4300817.jpg",
+    "text:benefits:h3::0": "The “WE ON WELLNESS” Initiative",
+    "image:benefit-health.jpg": "assets/edits/benefit-health-883753e5.jpg",
+    "text:benefits:h3::1": "Health & Medical Benefits",
+    "text:benefits:h3::2": "New World Volunteer Teams",
+    "text:benefits:p::2": "Conduct diverse experiential activities and provide mental health-related training",
+    "text:view-home:a:btn:1": "              人才发展计划            \n",
+    "text:benefitsTitle:h2::2": "员工福利",
+    "text:benefits:p:eyebrow:0": "",
+    "text:benefits:p::1": "",
+    "image:benefit-learning.jpg": "assets/edits/benefit-learning-091f451f.jpg",
+    "image:benefit-sharing.jpg": "assets/edits/benefit-sharing-a1442923.jpg",
+    "image:benefit-travel.jpg": "assets/edits/benefit-travel-5b247a86.jpg",
+    "image:benefit-transit.jpg": "assets/edits/benefit-transit-db59cd58.jpg",
+    "text:benefits:p::3": "Comprehensive medical coverage, annual medical subsidies and Wellness Dollars for personalized health choices",
+    "text:benefits:p::4": "Organize all kinds of meaningful public welfare projects",
+    "text:benefits:h3::3": "Learning Support Benefits",
+    "text:benefits:p::5": "Education subsidies and examination to support support further learning",
+    "text:benefits:h3::4": "Professional Growth Support",
+    "text:benefits:p::6": "Hipo Program and a suite of in-house learning and development programs to support long-term career progression",
+    "text:benefits:h3::5": "Experiential Learning Journey",
+    "text:benefits:p::7": "On-site visits to residential projects, retail destinations, and cultural landmarks.",
+    "text:stories:p:eyebrow:0": "",
+    "text:storiesTitle:h2::3": "员工故事",
+    "text:stories:p::1": "",
+    "image:story-operations.jpg": "assets/edits/story-operations-01d0917d.jpg",
+    "image:story-product.jpg": "assets/edits/story-product-1fda4c82.jpg",
+    "image:story-engineering.jpg": "assets/edits/story-engineering-083441ec.jpg",
+    "text:stories:strong::0": "Chan Ho Man",
+    "text:stories:span::2": "Project Engineer, Kai Tak Sports Park",
+    "text:stories:blockquote::0": "“As a retired athlete, I worried about switching industries. The Group’s athlete career programme gave me a chance. My teammates guided me to learn construction basics. My perseverance from sports is valued here, and I can shine in a brand-new career.”",
+    "text:stories:strong::1": "Cheung Hoi Lam",
+    "text:stories:span::5": "Brand Strategist, K11 MUSEA",
+    "text:stories:blockquote::1": "“Within my first year, I got to join cultural curation projects. The Group encourages bold ideas. Even imperfect proposals get refined together; junior voices are heard.”",
+    "text:stories:strong::2": "Lee Wai Ming",
+    "text:stories:span::8": "Deputy Property Asset Manager",
+    "text:stories:blockquote::2": "“When projects hit obstacles, our priority is to solve problems rather than blame. I was promoted from frontline staff over 12 years, with opportunities across different projects.”",
+    "text:philosophy:p::1": "",
+    "text:footer:a::22": "人才发展计划",
+    "text:footer:span::66": "+852 77778888"
   },
   "zh-HK": {},
   "en": {},
   "layout": {
-    "moves": {},
-    "sizes": {},
-    "hidden": [],
+    "moves": {
+      "el:employer-brand:div:brand-split:0": {
+        "dx": 253,
+        "dy": 0
+      },
+      "el:employer-brand:div:image-frame:0": {
+        "dx": -11,
+        "dy": -1
+      },
+      "el:employer-brand:section:section:3": {
+        "dx": -1,
+        "dy": 5
+      },
+      "text:benefits:p::1": {
+        "dx": 0,
+        "dy": -4
+      },
+      "text:benefits:p::3": {
+        "dx": 0,
+        "dy": 4
+      },
+      "text:benefits:h3::5": {
+        "dx": -2,
+        "dy": -3
+      },
+      "text:stories:p::1": {
+        "dx": 0,
+        "dy": -3
+      },
+      "text:stories:blockquote::0": {
+        "dx": 4,
+        "dy": 4
+      },
+      "el:stories:article:story-card:1": {
+        "dx": 0,
+        "dy": 5
+      },
+      "text:stories:blockquote::2": {
+        "dx": -10,
+        "dy": 2
+      },
+      "el:view-home:div:hero-content:0": {
+        "dx": -2,
+        "dy": -56
+      }
+    },
+    "sizes": {
+      "el:employer-brand:div:brand-split:0": {
+        "w": 762,
+        "h": 438
+      },
+      "image:employer-team.jpg": {
+        "w": 777,
+        "h": 427
+      },
+      "el:employer-brand:div:image-frame:0": {
+        "w": 777,
+        "h": 455
+      },
+      "el:employer-brand:div:container-wide:0": {
+        "w": 1320,
+        "h": 469
+      }
+    },
+    "hidden": [
+      "el:philosophy:article:principle-card:0",
+      "el:philosophy:article:principle-card:2",
+      "el:philosophy:article:principle-card:1",
+      "el:philosophy:article:principle-card:3",
+      "el:employer-brand:div:brand-copy-block:0",
+      "text:stories:span:story-avatar:0",
+      "text:stories:span:story-avatar:1",
+      "text:stories:span:story-avatar:2",
+      "el:view-home:ul:hero-signals:0"
+    ],
     "elements": []
   }
 }
