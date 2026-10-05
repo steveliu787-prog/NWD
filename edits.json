@@ -15,41 +15,9 @@
   "zh-HK": {},
   "en": {},
   "layout": {
-    "moves": {
-      "el:employer-brand:div:brand-split:0": {
-        "dx": 253,
-        "dy": 0
-      },
-      "el:employer-brand:div:image-frame:0": {
-        "dx": -11,
-        "dy": -1
-      }
-    },
-    "sizes": {
-      "el:employer-brand:div:brand-split:0": {
-        "w": 762,
-        "h": 438
-      },
-      "image:employer-team.jpg": {
-        "w": 777,
-        "h": 427
-      },
-      "el:employer-brand:div:image-frame:0": {
-        "w": 777,
-        "h": 455
-      },
-      "el:employer-brand:div:container-wide:0": {
-        "w": 1320,
-        "h": 469
-      }
-    },
-    "hidden": [
-      "el:philosophy:article:principle-card:0",
-      "el:philosophy:article:principle-card:2",
-      "el:philosophy:article:principle-card:1",
-      "el:philosophy:article:principle-card:3",
-      "el:employer-brand:div:brand-copy-block:0"
-    ],
+    "moves": {},
+    "sizes": {},
+    "hidden": [],
     "elements": []
   }
 }
