@@ -61,7 +61,8 @@
     "text:growth:span:phase-duration:5": "",
     "text:growth:span:phase-duration:4": "",
     "text:growth:h4::2": " 在职成长计划",
-    "text:growth:p::5": "我们助力员工持续职业发展。定期举办研习课程与技能提升资源，帮助人才增强综合能力，拓展职业发展空间。"
+    "text:growth:p::5": "我们助力员工持续职业发展。定期举办研习课程与技能提升资源，帮助人才增强综合能力，拓展职业发展空间。",
+    "text:view-home:a:btn:0": "              浏览开放岗位                    "
   },
   "zh-HK": {
     "text:heroTitle:h1::0": "把長期主義，變成你的職業可能。",
