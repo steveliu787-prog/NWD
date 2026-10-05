@@ -5,26 +5,44 @@
     "text:philosophy:span:principle-number:3": "04",
     "text:philosophy:span:principle-number:2": "03",
     "text:view-home:li::2": "成果导向评估",
-    "image:benefit-flexible.jpg": "assets/edits/benefit-flexible-b8fb61ac.jpg",
-    "text:benefits:h3::0": "弹性工作安排",
-    "image:benefit-health.jpg": "assets/edits/benefit-health-b8fb61ac.jpg",
+    "image:benefit-flexible.jpg": "assets/edits/benefit-flexible-ab3e35c4.jpg",
+    "text:benefits:h3::0": "弹性工作安排test",
+    "image:benefit-health.jpg": "assets/edits/benefit-health-fe21c22a.jpg",
     "text:benefits:h3::1": "健康与家庭保障",
-    "text:benefits:h3::2": "年度学习基金test"
+    "text:benefits:h3::2": "年度学习基金test",
+    "text:benefits:p::2": "核心时段协作与自主安排结合，支持混合办公、错峰通勤和个人事务协调。"
   },
   "zh-HK": {},
   "en": {},
   "layout": {
     "moves": {
       "el:employer-brand:div:brand-split:0": {
-        "dx": 285,
-        "dy": 1
+        "dx": 253,
+        "dy": 0
       },
       "el:employer-brand:div:image-frame:0": {
-        "dx": 63,
-        "dy": -4
+        "dx": -11,
+        "dy": -1
       }
     },
-    "sizes": {},
+    "sizes": {
+      "el:employer-brand:div:brand-split:0": {
+        "w": 762,
+        "h": 438
+      },
+      "image:employer-team.jpg": {
+        "w": 777,
+        "h": 427
+      },
+      "el:employer-brand:div:image-frame:0": {
+        "w": 777,
+        "h": 455
+      },
+      "el:employer-brand:div:container-wide:0": {
+        "w": 1320,
+        "h": 469
+      }
+    },
     "hidden": [
       "el:philosophy:article:principle-card:0",
       "el:philosophy:article:principle-card:2",
