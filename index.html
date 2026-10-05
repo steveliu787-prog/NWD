@@ -3880,12 +3880,12 @@
         for (var i = 0; i < staticTextRecords.length; i += 1) {
           var record = staticTextRecords[i];
           var translated = uiText(record.core);
-          if (translated !== record.core) record.node.nodeValue = record.leading + translated + record.trailing;
+          record.node.nodeValue = record.leading + translated + record.trailing;
         }
         for (var j = 0; j < staticAttributeRecords.length; j += 1) {
           var attribute = staticAttributeRecords[j];
           var value = uiText(attribute.source);
-          if (value !== attribute.source) attribute.element.setAttribute(attribute.name, value);
+          attribute.element.setAttribute(attribute.name, value);
         }
       }
 

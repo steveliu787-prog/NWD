@@ -60,6 +60,7 @@
   var layoutDragSuppressClick = false;
   var layoutDragState = null;
   var layoutResizeState = null;
+  var responsiveLayoutTimer = null;
   var layoutTouched = false;
   var inspectorBar = null;
   var addMenu = null;
@@ -988,6 +989,14 @@
 
   /* ---------- layout editing: anchors & rendering (visitors too) ---------- */
 
+  function usesResponsiveLayoutFallback(element) {
+    if (window.innerWidth > 900) return false;
+    return Boolean(
+      element.matches(".container-wide, .brand-split, .image-frame") ||
+      (element.tagName === "IMG" && element.closest(".image-frame"))
+    );
+  }
+
   function resolveAnchor(anchor) {
     if (!anchor) return null;
     if (anchor.charAt(0) === "@") {
@@ -1099,10 +1108,11 @@
 
     document.querySelectorAll("main [data-editor-key], main [data-move-key], footer [data-editor-key], footer [data-move-key]").forEach(function (element) {
       var key = element.getAttribute("data-editor-key") || element.getAttribute("data-move-key");
-      var move = layout.moves[key];
+      var responsiveFallback = usesResponsiveLayoutFallback(element);
+      var move = responsiveFallback ? null : layout.moves[key];
       if (move) element.style.translate = move.dx + "px " + move.dy + "px";
       else element.style.removeProperty("translate");
-      var size = layout.sizes[key];
+      var size = responsiveFallback ? null : layout.sizes[key];
       if (size) {
         if (size.w) element.style.width = size.w + "px";
         if (size.h) element.style.height = size.h + "px";
@@ -2717,6 +2727,10 @@
       if (editingEnabled) {
         positionInspector();
         positionFloatingHandle();
+      }
+      if (!editingEnabled) {
+        window.clearTimeout(responsiveLayoutTimer);
+        responsiveLayoutTimer = window.setTimeout(applyLayout, 80);
       }
     });
 
