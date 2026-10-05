@@ -1,0 +1,37 @@
+{
+  "zh-CN": {
+    "text:heroTitle:h1::0": "把长期主义，变成你的职业可能。",
+    "text:view-home:p:hero-lead:0": "从城市空间到商业服务，我们为愿意持续成长的人，提供多元业务、真实项目和清晰的长期发展通道。",
+    "text:philosophy:span:principle-number:3": "04",
+    "text:philosophy:span:principle-number:2": "03",
+    "text:view-home:li::2": "成果导向评估",
+    "image:benefit-flexible.jpg": "assets/edits/benefit-flexible-b8fb61ac.jpg",
+    "text:benefits:h3::0": "弹性工作安排",
+    "image:benefit-health.jpg": "assets/edits/benefit-health-b8fb61ac.jpg",
+    "text:benefits:h3::1": "健康与家庭保障",
+    "text:benefits:h3::2": "年度学习基金test"
+  },
+  "zh-HK": {},
+  "en": {},
+  "layout": {
+    "moves": {
+      "el:employer-brand:div:brand-split:0": {
+        "dx": 285,
+        "dy": 1
+      },
+      "el:employer-brand:div:image-frame:0": {
+        "dx": 63,
+        "dy": -4
+      }
+    },
+    "sizes": {},
+    "hidden": [
+      "el:philosophy:article:principle-card:0",
+      "el:philosophy:article:principle-card:2",
+      "el:philosophy:article:principle-card:1",
+      "el:philosophy:article:principle-card:3",
+      "el:employer-brand:div:brand-copy-block:0"
+    ],
+    "elements": []
+  }
+}

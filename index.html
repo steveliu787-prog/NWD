@@ -1,0 +1,4338 @@
+<!DOCTYPE html>
+<!--
+  课程项目：企业招聘官网 UX/UI 重构原型
+  说明：
+  1. 本文件为单文件 HTML + CSS + JS 学术原型，双击即可在浏览器打开。
+  2. 全部版面结构、文案、岗位内容均为本次课程独立原创重构。
+  3. 图片使用 Unsplash 免费图库素材，首页为香港夜景，各内容区块已按主题匹配。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#A6192E">
+  <meta name="description" content="企业招聘官网 UX/UI 学术重构原型，包含招聘首页、岗位筛选、岗位详情与在线求职表单。">
+  <title>新世界人才中心 | 招聘门户重构原型</title>
+  <style>
+    :root {
+      --brand-950: #2B070C;
+      --brand-900: #3B0D14;
+      --brand-800: #A6192E;
+      --brand-700: #C2253C;
+      --brand-600: #D4344B;
+      --brand-500: #E45869;
+      --brand-300: #F0A5AE;
+      --brand-200: #F7CAD0;
+      --brand-100: #FBE3E6;
+      --brand-50: #FFF2F4;
+      --ink: #251A1C;
+      --ink-soft: #442B30;
+      --slate: #6E6265;
+      --slate-light: #989093;
+      --line: #E8DADD;
+      --line-soft: #F0E8EA;
+      --surface: #FFFFFF;
+      --canvas: #F7F5F5;
+      --canvas-warm: #FAF7F7;
+      --gold: #E45869;
+      --gold-soft: #FFFFFF;
+      --danger: #B4232F;
+      --success: #B5222F;
+      --shadow-sm: 0 8px 24px rgba(90, 10, 18, 0.07);
+      --shadow-md: 0 18px 48px rgba(90, 10, 18, 0.12);
+      --radius: 8px;
+      --header-height: 76px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--surface);
+      color: var(--ink);
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Hiragino Sans GB", sans-serif;
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    svg {
+      display: block;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 300;
+      padding: 9px 14px;
+      border-radius: var(--radius);
+      background: var(--brand-800);
+      color: #fff;
+      transform: translateY(-150%);
+      transition: transform 180ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .container-wide {
+      width: min(1320px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+      animation: view-in 320ms ease both;
+    }
+
+    @keyframes view-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-height);
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      width: min(1320px, calc(100% - 48px));
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 230px;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--brand-800);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(166, 25, 46, 0.2);
+    }
+
+    .brand-mark .icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .brand-copy {
+      display: grid;
+      line-height: 1.2;
+    }
+
+    .brand-copy strong {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .brand-copy small {
+      margin-top: 4px;
+      color: var(--slate);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-left: auto;
+    }
+
+    .desktop-nav a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 0;
+      color: var(--ink-soft);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .desktop-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 1px;
+      height: 2px;
+      background: var(--brand-600);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 180ms ease;
+    }
+
+    .desktop-nav a:hover,
+    .desktop-nav a.is-active {
+      color: var(--brand-800);
+    }
+
+    .desktop-nav a:hover::after,
+    .desktop-nav a.is-active::after {
+      transform: scaleX(1);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 8px;
+    }
+
+    .language-switch {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--canvas);
+    }
+
+    .lang-btn {
+      min-width: 34px;
+      height: 30px;
+      display: inline-grid;
+      place-items: center;
+      padding: 0 7px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--slate);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 80ms ease, color 80ms ease;
+    }
+
+    .lang-btn:hover {
+      color: var(--brand-800);
+    }
+
+    .lang-btn.is-active {
+      background: var(--brand-800);
+      color: #fff;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 700;
+      line-height: 1;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:focus-visible,
+    .nav-link:focus-visible,
+    .job-card:focus-visible,
+    .icon-btn:focus-visible,
+    .filter-select:focus-visible,
+    .search-field:focus-visible,
+    .form-control:focus-visible {
+      outline: 3px solid rgba(212, 52, 75, 0.3);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--brand-800);
+      color: #fff;
+      box-shadow: 0 7px 18px rgba(166, 25, 46, 0.18);
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-700);
+      box-shadow: 0 9px 24px rgba(166, 25, 46, 0.24);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      border-color: rgba(255, 255, 255, 0.55);
+      color: var(--brand-900);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--brand-800);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--brand-500);
+      background: var(--brand-50);
+    }
+
+    .btn-ghost {
+      background: var(--brand-50);
+      border-color: var(--brand-100);
+      color: var(--brand-800);
+    }
+
+    .btn-ghost:hover {
+      background: var(--brand-100);
+    }
+
+    .btn-text {
+      min-height: 40px;
+      padding: 0 6px;
+      background: transparent;
+      color: var(--brand-700);
+      border-color: transparent;
+    }
+
+    .btn-text:hover {
+      color: var(--brand-900);
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      display: inline-grid;
+      place-items: center;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .menu-btn {
+      display: none;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      padding: calc(var(--header-height) + 28px) 24px 28px;
+      background: var(--surface);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    }
+
+    .mobile-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .mobile-menu nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mobile-menu a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 17px 4px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .mobile-menu a .icon {
+      color: var(--brand-600);
+    }
+
+    .mobile-menu .mobile-cta {
+      margin-top: 26px;
+      width: 100%;
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      height: calc(100svh - var(--header-height));
+      max-height: 900px;
+      min-height: 620px;
+      overflow: hidden;
+      color: #fff;
+      background: var(--brand-900);
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .hero-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(43, 7, 12, 0.92) 0%, rgba(69, 13, 21, 0.75) 42%, rgba(43, 7, 12, 0.18) 100%),
+        linear-gradient(0deg, rgba(43, 7, 12, 0.62) 0%, rgba(43, 7, 12, 0.08) 55%, rgba(43, 7, 12, 0.18) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(1320px, calc(100% - 48px));
+      height: 100%;
+      margin: 0 auto;
+      padding: 74px 0 86px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 22px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold-soft);
+      box-shadow: 0 0 0 4px rgba(233, 214, 169, 0.15);
+    }
+
+    .hero h1 {
+      max-width: 820px;
+      margin: 0;
+      font-size: 68px;
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .hero-lead {
+      max-width: 660px;
+      margin: 24px 0 0;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 19px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .hero-signals {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px 30px;
+      margin: 42px 0 0;
+      padding: 0;
+      list-style: none;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 14px;
+    }
+
+    .hero-signals li {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-signals .icon {
+      width: 17px;
+      height: 17px;
+      color: var(--gold-soft);
+    }
+
+    .section {
+      padding: 92px 0;
+    }
+
+    .section-tight {
+      padding: 76px 0;
+    }
+
+    .section-canvas {
+      background: var(--canvas);
+    }
+
+    .section-warm {
+      background: var(--canvas-warm);
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 44px;
+    }
+
+    .section-head.center {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .section-head.split {
+      max-width: none;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .section-head.split .section-copy {
+      max-width: 720px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 12px;
+      color: var(--brand-700);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: var(--brand-500);
+    }
+
+    .section-head.center .eyebrow::before,
+    .section-head.center .eyebrow::after {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: var(--brand-500);
+    }
+
+    .section-head.center .eyebrow {
+      display: inline-flex;
+    }
+
+    .section-head h2,
+    .section-head h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .section-head p {
+      margin: 16px 0 0;
+      color: var(--slate);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .principle-card {
+      position: relative;
+      min-height: 260px;
+      padding: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .principle-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--brand-200);
+      box-shadow: var(--shadow-md);
+    }
+
+    .principle-number {
+      position: absolute;
+      top: 16px;
+      right: 22px;
+      color: var(--brand-100);
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .principle-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--brand-50);
+      color: var(--brand-700);
+    }
+
+    .principle-card h3 {
+      margin: 24px 0 12px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
+    .principle-card p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .stats-band {
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.035) 0%, transparent 45%),
+        var(--brand-900);
+      color: #fff;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .stat-item {
+      min-height: 152px;
+      padding: 28px 34px;
+      border-left: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .stat-item:first-child {
+      border-left: 0;
+    }
+
+    .stat-value {
+      display: block;
+      color: #fff;
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+    }
+
+    .brand-split {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      align-items: center;
+      gap: 68px;
+    }
+
+    .image-frame {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--brand-100);
+      box-shadow: var(--shadow-md);
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      object-fit: cover;
+      transition: transform 500ms ease;
+    }
+
+    .image-frame:hover img {
+      transform: scale(1.025);
+    }
+
+    .image-caption {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      max-width: calc(100% - 36px);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 13px;
+      border-radius: var(--radius);
+      background: rgba(59, 13, 20, 0.82);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+    }
+
+    .image-caption .icon {
+      width: 17px;
+      height: 17px;
+      color: var(--gold-soft);
+    }
+
+    .brand-copy-block h3 {
+      margin: 0;
+      color: var(--brand-900);
+      font-size: 30px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .brand-copy-block .lead {
+      margin: 20px 0 0;
+      color: var(--ink-soft);
+      font-size: 18px;
+      line-height: 1.85;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 14px;
+      margin: 30px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .signal-list li {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 13px;
+      align-items: start;
+      padding: 16px 0;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .signal-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--brand-100);
+      color: var(--brand-700);
+    }
+
+    .signal-copy strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .signal-copy span {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .growth-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 54px;
+      align-items: start;
+    }
+
+    .growth-side {
+      position: sticky;
+      top: calc(var(--header-height) + 32px);
+    }
+
+    .growth-side .program-tag {
+      display: inline-block;
+      padding: 7px 11px;
+      border: 1px solid var(--brand-200);
+      border-radius: 999px;
+      background: var(--brand-50);
+      color: var(--brand-700);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .growth-side h3 {
+      margin: 18px 0 12px;
+      color: var(--ink);
+      font-size: 27px;
+      line-height: 1.35;
+    }
+
+    .growth-side p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .growth-side .btn {
+      margin-top: 24px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 0;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 26px;
+      top: 24px;
+      bottom: 24px;
+      width: 1px;
+      background: var(--brand-200);
+    }
+
+    .timeline-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 18px;
+      padding: 0 0 28px;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-marker {
+      position: relative;
+      z-index: 1;
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--brand-200);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--brand-700);
+      font-weight: 800;
+    }
+
+    .timeline-card {
+      padding: 25px 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .timeline-card .phase-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .phase-duration {
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--brand-100);
+      color: var(--brand-700);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .timeline-card h4 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      line-height: 1.4;
+    }
+
+    .timeline-card p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .benefit-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .benefit-media {
+      position: relative;
+      height: 168px;
+      overflow: hidden;
+      background: var(--brand-100);
+    }
+
+    .benefit-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 500ms ease;
+    }
+
+    .benefit-card:hover .benefit-media img {
+      transform: scale(1.05);
+    }
+
+    .benefit-media .icon {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 38px;
+      height: 38px;
+      padding: 8px;
+      border-radius: var(--radius);
+      background: rgba(125, 17, 31, 0.86);
+      color: #fff;
+      backdrop-filter: blur(6px);
+    }
+
+    .benefit-body {
+      padding: 22px;
+    }
+
+    .benefit-body h3 {
+      margin: 0 0 9px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .benefit-body p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.72;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .story-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .story-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .story-media {
+      position: relative;
+      height: 245px;
+      background: var(--brand-100);
+    }
+
+    .story-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-quote-icon {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--brand-700);
+      box-shadow: 0 6px 16px rgba(90, 10, 18, 0.14);
+    }
+
+    .story-body {
+      padding: 24px;
+    }
+
+    .story-body blockquote {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 16px;
+      line-height: 1.78;
+    }
+
+    .story-person {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .story-avatar {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--brand-800);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .story-person strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .story-person span {
+      display: block;
+      margin-top: 2px;
+      color: var(--slate);
+      font-size: 12px;
+    }
+
+    .cta-band {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 84px 0;
+      background: var(--brand-900);
+      color: #fff;
+    }
+
+    .cta-band::before,
+    .cta-band::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transform: rotate(-12deg);
+    }
+
+    .cta-band::before {
+      width: 460px;
+      height: 460px;
+      left: -240px;
+      top: -260px;
+    }
+
+    .cta-band::after {
+      width: 380px;
+      height: 380px;
+      right: -190px;
+      bottom: -230px;
+    }
+
+    .cta-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .cta-copy {
+      max-width: 760px;
+    }
+
+    .cta-copy h2 {
+      margin: 0;
+      font-size: 36px;
+      line-height: 1.28;
+      letter-spacing: 0;
+    }
+
+    .cta-copy p {
+      max-width: 650px;
+      margin: 16px 0 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .site-footer {
+      padding: 60px 0 28px;
+      background: #2B070C;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr 0.7fr 1fr;
+      gap: 50px;
+      padding-bottom: 44px;
+    }
+
+    .footer-brand .brand-copy strong {
+      color: #fff;
+    }
+
+    .footer-brand .brand-copy small {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-brand p {
+      max-width: 330px;
+      margin: 22px 0 0;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .footer-column h4 {
+      margin: 0 0 18px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .footer-column a {
+      display: block;
+      margin: 10px 0;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 14px;
+    }
+
+    .footer-column a:hover {
+      color: #fff;
+    }
+
+    .footer-contact {
+      display: grid;
+      gap: 14px;
+    }
+
+    .footer-contact span {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-contact .icon {
+      width: 17px;
+      height: 17px;
+      margin-top: 3px;
+      color: var(--brand-300);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.42);
+      font-size: 12px;
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-legal a {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-legal a:hover {
+      color: #fff;
+    }
+
+    .page-hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 72px 0 56px;
+      background: var(--brand-900);
+      color: #fff;
+    }
+
+    .page-hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      right: -90px;
+      bottom: -220px;
+      width: 520px;
+      height: 520px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+    }
+
+    .page-hero h1 {
+      margin: 0;
+      font-size: 48px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .page-hero p {
+      max-width: 720px;
+      margin: 16px 0 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .page-hero .hero-eyebrow {
+      margin-bottom: 18px;
+    }
+
+    .jobs-shell {
+      padding: 52px 0 96px;
+      background: var(--canvas);
+    }
+
+    .jobs-toolbar {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap .icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      width: 19px;
+      height: 19px;
+      color: var(--slate);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .search-field {
+      width: 100%;
+      height: 48px;
+      padding: 0 46px 0 47px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--canvas);
+      color: var(--ink);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 7px;
+      top: 50%;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--slate);
+      cursor: pointer;
+      transform: translateY(-50%);
+    }
+
+    .search-clear .icon {
+      position: static;
+      width: 16px;
+      height: 16px;
+      transform: none;
+    }
+
+    .filters-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) auto;
+      gap: 14px;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .filter-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .filter-field label,
+    .graduate-filter label {
+      color: var(--ink-soft);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .filter-select {
+      width: 100%;
+      height: 46px;
+      padding: 0 40px 0 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      appearance: none;
+      background:
+        linear-gradient(45deg, transparent 50%, var(--slate) 50%) calc(100% - 17px) 20px / 5px 5px no-repeat,
+        linear-gradient(135deg, var(--slate) 50%, transparent 50%) calc(100% - 12px) 20px / 5px 5px no-repeat,
+        #fff;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .graduate-filter {
+      display: flex;
+      align-items: center;
+      align-self: end;
+      gap: 9px;
+      min-height: 46px;
+      padding: 0 2px 8px;
+      cursor: pointer;
+    }
+
+    .graduate-filter input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    .toggle-track {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--canvas);
+      transition: background 180ms ease, border-color 180ms ease;
+    }
+
+    .toggle-track::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(90, 10, 18, 0.18);
+      transition: transform 180ms ease;
+    }
+
+    .graduate-filter input:checked + .toggle-track {
+      border-color: var(--brand-600);
+      background: var(--brand-600);
+    }
+
+    .graduate-filter input:checked + .toggle-track::after {
+      transform: translateX(18px);
+    }
+
+    .graduate-filter input:focus-visible + .toggle-track {
+      outline: 3px solid rgba(212, 52, 75, 0.3);
+      outline-offset: 2px;
+    }
+
+    .jobs-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 28px 0 16px;
+    }
+
+    .result-count {
+      color: var(--ink-soft);
+      font-size: 15px;
+    }
+
+    .result-count strong {
+      color: var(--brand-700);
+      font-size: 19px;
+      margin-right: 4px;
+    }
+
+    .clear-filters {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 2px;
+      border: 0;
+      background: transparent;
+      color: var(--brand-700);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .clear-filters .icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .job-card {
+      position: relative;
+      width: 100%;
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(90, 10, 18, 0.035);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .job-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--brand-300);
+      box-shadow: var(--shadow-md);
+    }
+
+    .job-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .job-category {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--brand-50);
+      color: var(--brand-700);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .job-type {
+      color: var(--slate);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .job-card h3 {
+      margin: 18px 0 8px;
+      padding-right: 32px;
+      font-size: 21px;
+      line-height: 1.4;
+      letter-spacing: 0;
+    }
+
+    .job-summary {
+      margin: 0;
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 18px;
+      margin-top: 20px;
+      padding-top: 17px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--slate);
+      font-size: 13px;
+    }
+
+    .job-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .job-meta .icon {
+      width: 15px;
+      height: 15px;
+      color: var(--brand-600);
+    }
+
+    .job-arrow {
+      position: absolute;
+      right: 23px;
+      bottom: 24px;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--brand-50);
+      color: var(--brand-700);
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .job-card:hover .job-arrow {
+      background: var(--brand-800);
+      color: #fff;
+      transform: translate(2px, -2px);
+    }
+
+    .empty-state {
+      padding: 70px 24px;
+      border: 1px dashed var(--brand-300);
+      border-radius: var(--radius);
+      background: var(--surface);
+      text-align: center;
+    }
+
+    .empty-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--brand-50);
+      color: var(--brand-600);
+    }
+
+    .empty-state h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .empty-state p {
+      margin: 0 0 20px;
+      color: var(--slate);
+      font-size: 14px;
+    }
+
+    .detail-hero {
+      padding: 54px 0 46px;
+      background: var(--brand-900);
+      color: #fff;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 30px;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 13px;
+    }
+
+    .breadcrumb button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: inherit;
+    }
+
+    .breadcrumb .icon {
+      width: 15px;
+      height: 15px;
+    }
+
+    .detail-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .detail-title-row h1 {
+      max-width: 840px;
+      margin: 0;
+      font-size: 42px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 26px;
+      margin-top: 25px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 14px;
+    }
+
+    .detail-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .detail-meta .icon {
+      width: 17px;
+      height: 17px;
+      color: var(--gold-soft);
+    }
+
+    .detail-layout {
+      align-items: start;
+      padding: 52px 0 96px;
+      background: var(--canvas);
+    }
+
+    .detail-layout-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 400px;
+      gap: 38px;
+      align-items: start;
+    }
+
+    .detail-main {
+      min-width: 0;
+    }
+
+    .detail-panel {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .detail-panel + .detail-panel {
+      margin-top: 18px;
+    }
+
+    .detail-panel h2 {
+      margin: 0 0 16px;
+      color: var(--brand-900);
+      font-size: 21px;
+      line-height: 1.35;
+    }
+
+    .detail-panel .lead {
+      margin: 0 0 22px;
+      color: var(--slate);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--ink-soft);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .check-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 9px 9px no-repeat,
+        var(--brand-600);
+    }
+
+    .growth-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .growth-strip div {
+      min-height: 104px;
+      padding: 16px;
+      border-radius: var(--radius);
+      background: var(--brand-50);
+      color: var(--ink-soft);
+    }
+
+    .growth-strip strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--brand-800);
+      font-size: 14px;
+    }
+
+    .growth-strip span {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .check-list li::before {
+      background: var(--brand-600);
+    }
+
+    .check-list li::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 10px;
+      width: 8px;
+      height: 5px;
+      border-left: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(-45deg);
+    }
+
+    .application-panel {
+      position: sticky;
+      top: calc(var(--header-height) + 24px);
+      padding: 28px;
+      border: 1px solid var(--brand-200);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-md);
+    }
+
+    .application-panel h2 {
+      margin: 0 0 7px;
+      font-size: 23px;
+      line-height: 1.35;
+    }
+
+    .application-panel > p {
+      margin: 0 0 24px;
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      color: var(--ink-soft);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .form-group label small {
+      color: var(--slate-light);
+      font-weight: 400;
+    }
+
+    .form-control {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    textarea.form-control {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.65;
+    }
+
+    .form-control::placeholder {
+      color: #9AA4A1;
+    }
+
+    .form-control:focus {
+      border-color: var(--brand-500);
+      outline: 0;
+      box-shadow: 0 0 0 3px rgba(212, 52, 75, 0.12);
+    }
+
+    select.form-control {
+      appearance: none;
+      background:
+        linear-gradient(45deg, transparent 50%, var(--slate) 50%) calc(100% - 18px) 20px / 5px 5px no-repeat,
+        linear-gradient(135deg, var(--slate) 50%, transparent 50%) calc(100% - 13px) 20px / 5px 5px no-repeat,
+        #fff;
+    }
+
+    .file-drop {
+      position: relative;
+      min-height: 96px;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      border: 1px dashed var(--brand-300);
+      border-radius: var(--radius);
+      background: var(--brand-50);
+      color: var(--slate);
+      text-align: center;
+      cursor: pointer;
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+
+    .file-drop:hover {
+      background: var(--brand-100);
+      border-color: var(--brand-500);
+    }
+
+    .file-drop input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-drop .file-copy {
+      pointer-events: none;
+    }
+
+    .file-drop .icon {
+      width: 22px;
+      height: 22px;
+      margin: 0 auto 7px;
+      color: var(--brand-700);
+    }
+
+    .file-drop strong {
+      display: block;
+      color: var(--brand-800);
+      font-size: 14px;
+    }
+
+    .file-drop span {
+      display: block;
+      margin-top: 3px;
+      font-size: 12px;
+    }
+
+    .consent {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin: 5px 0 20px;
+      color: var(--slate);
+      font-size: 12px;
+      line-height: 1.6;
+      cursor: pointer;
+    }
+
+    .consent input {
+      width: 18px;
+      height: 18px;
+      margin: 1px 0 0;
+      accent-color: var(--brand-700);
+    }
+
+    .submit-btn {
+      width: 100%;
+    }
+
+    .form-note {
+      margin: 13px 0 0;
+      color: var(--slate-light);
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .form-success {
+      padding: 30px 24px;
+      border: 1px solid var(--brand-200);
+      border-radius: var(--radius);
+      background: var(--brand-50);
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 18px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--brand-700);
+      color: #fff;
+    }
+
+    .success-icon .icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .form-success h3 {
+      margin: 0 0 8px;
+      color: var(--brand-900);
+      font-size: 20px;
+    }
+
+    .form-success p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .form-success .btn {
+      margin-top: 20px;
+    }
+
+    .error-message {
+      min-height: 18px;
+      color: var(--danger);
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1100px) {
+      .philosophy-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .benefit-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .brand-split {
+        gap: 42px;
+      }
+
+      .detail-layout-grid {
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 28px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      :root {
+        --header-height: 68px;
+      }
+
+      .header-inner,
+      .container,
+      .container-wide,
+      .hero-content {
+        width: min(100% - 40px, 1320px);
+      }
+
+      .header-inner {
+        gap: 16px;
+      }
+
+      .desktop-nav {
+        display: none;
+      }
+
+      .header-actions {
+        margin-left: auto;
+      }
+
+      .header-actions .btn {
+        display: none;
+      }
+
+      .language-switch {
+        padding: 2px;
+      }
+
+      .lang-btn {
+        min-width: 30px;
+        height: 28px;
+        padding: 0 5px;
+        font-size: 11px;
+      }
+
+      .menu-btn {
+        display: inline-grid;
+      }
+
+      .hero {
+        height: calc(100svh - 68px);
+        max-height: none;
+        min-height: 560px;
+      }
+
+      .hero-content {
+        padding: 58px 0 64px;
+      }
+
+      .hero h1 {
+        font-size: 54px;
+      }
+
+      .hero-lead {
+        font-size: 17px;
+      }
+
+      .section {
+        padding: 74px 0;
+      }
+
+      .section-head h2,
+      .section-head h1 {
+        font-size: 32px;
+      }
+
+      .brand-split {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .image-frame img {
+        min-height: 0;
+        max-height: 460px;
+      }
+
+      .growth-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .growth-side {
+        position: static;
+        max-width: 660px;
+      }
+
+      .story-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .story-grid .story-card:last-child {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 0.85fr 1.15fr;
+      }
+
+      .story-grid .story-card:last-child .story-media {
+        height: 100%;
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .jobs-toolbar {
+        padding: 18px;
+      }
+
+      .filters-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .graduate-filter {
+        grid-column: 1 / -1;
+        justify-self: start;
+      }
+
+      .job-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-layout-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .application-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 15px;
+      }
+
+      .container,
+      .container-wide,
+      .header-inner,
+      .hero-content {
+        width: min(100% - 32px, 1320px);
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .brand-copy strong {
+        font-size: 14px;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+      }
+
+      .hero {
+        height: calc(100svh - 68px);
+        min-height: 520px;
+      }
+
+      .hero-content {
+        padding: 42px 0 48px;
+      }
+
+      .hero-eyebrow {
+        margin-bottom: 17px;
+        font-size: 12px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+        line-height: 1.14;
+      }
+
+      .hero-lead {
+        margin-top: 18px;
+        font-size: 15px;
+        line-height: 1.72;
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        margin-top: 26px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+        padding: 0 12px;
+      }
+
+      .hero-signals {
+        gap: 12px 18px;
+        margin-top: 26px;
+        font-size: 12px;
+      }
+
+      .hero-signals li {
+        gap: 5px;
+      }
+
+      .section {
+        padding: 62px 0;
+      }
+
+      .section-tight {
+        padding: 54px 0;
+      }
+
+      .section-head {
+        margin-bottom: 30px;
+      }
+
+      .section-head h2,
+      .section-head h1 {
+        font-size: 28px;
+      }
+
+      .section-head p {
+        font-size: 15px;
+      }
+
+      .section-head.split {
+        display: block;
+      }
+
+      .section-head.split .btn {
+        margin-top: 20px;
+      }
+
+      .philosophy-grid,
+      .benefit-grid,
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principle-card {
+        min-height: 0;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat-item {
+        min-height: 122px;
+        padding: 22px 18px;
+      }
+
+      .stat-item:nth-child(3) {
+        border-left: 0;
+      }
+
+      .stat-item:nth-child(n + 3) {
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .stat-value {
+        font-size: 30px;
+      }
+
+      .image-frame img {
+        min-height: 260px;
+      }
+
+      .brand-copy-block h3 {
+        font-size: 25px;
+      }
+
+      .timeline {
+        padding-left: 0;
+      }
+
+      .timeline::before {
+        left: 22px;
+      }
+
+      .timeline-item {
+        grid-template-columns: 44px 1fr;
+        gap: 12px;
+      }
+
+      .timeline-marker {
+        width: 44px;
+        height: 44px;
+      }
+
+      .timeline-card {
+        padding: 20px 18px;
+      }
+
+      .benefit-media {
+        height: 150px;
+      }
+
+      .story-grid .story-card:last-child {
+        grid-column: auto;
+        display: block;
+      }
+
+      .story-grid .story-card:last-child .story-media {
+        height: 245px;
+      }
+
+      .cta-band {
+        padding: 62px 0;
+      }
+
+      .cta-inner {
+        display: block;
+      }
+
+      .cta-copy h2 {
+        font-size: 28px;
+      }
+
+      .cta-copy p {
+        font-size: 15px;
+      }
+
+      .cta-actions {
+        margin-top: 26px;
+      }
+
+      .cta-actions .btn {
+        width: 100%;
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr;
+        gap: 34px;
+      }
+
+      .footer-bottom {
+        display: block;
+      }
+
+      .footer-legal {
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+
+      .page-hero {
+        padding: 50px 0 38px;
+      }
+
+      .page-hero h1 {
+        font-size: 36px;
+      }
+
+      .page-hero p {
+        font-size: 15px;
+      }
+
+      .jobs-shell {
+        padding: 28px 0 72px;
+      }
+
+      .search-row,
+      .filters-row {
+        grid-template-columns: 1fr;
+      }
+
+      .graduate-filter {
+        grid-column: auto;
+      }
+
+      .jobs-meta-row {
+        display: block;
+        margin-top: 24px;
+      }
+
+      .clear-filters {
+        margin-top: 10px;
+      }
+
+      .job-card {
+        padding: 20px;
+      }
+
+      .job-card h3 {
+        font-size: 19px;
+      }
+
+      .job-meta {
+        gap: 10px 14px;
+      }
+
+      .job-arrow {
+        display: none;
+      }
+
+      .detail-hero {
+        padding: 38px 0 32px;
+      }
+
+      .breadcrumb {
+        margin-bottom: 22px;
+      }
+
+      .detail-title-row {
+        display: block;
+      }
+
+      .detail-title-row h1 {
+        font-size: 31px;
+      }
+
+      .detail-actions {
+        margin-top: 22px;
+      }
+
+      .detail-actions .btn {
+        width: 100%;
+      }
+
+      .detail-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .detail-layout {
+        padding: 28px 0 72px;
+      }
+
+      .detail-panel,
+      .application-panel {
+        padding: 21px 18px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full {
+        grid-column: auto;
+      }
+
+      .growth-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .growth-strip div {
+        min-height: 0;
+      }
+
+      .brand .brand-copy small {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+<link rel="stylesheet" href="assets/editor/editor.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+    <symbol id="icon-compass" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z"></path>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+      <path d="M5 12h14"></path>
+      <path d="m12 5 7 7-7 7"></path>
+    </symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+      <path d="M19 12H5"></path>
+      <path d="m12 19-7-7 7-7"></path>
+    </symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24">
+      <path d="M4 7h16"></path>
+      <path d="M4 12h16"></path>
+      <path d="M4 17h16"></path>
+    </symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24">
+      <path d="M18 6 6 18"></path>
+      <path d="m6 6 12 12"></path>
+    </symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="7"></circle>
+      <path d="m20 20-4-4"></path>
+    </symbol>
+    <symbol id="icon-map-pin" viewBox="0 0 24 24">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </symbol>
+    <symbol id="icon-briefcase" viewBox="0 0 24 24">
+      <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 6v6l4 2"></path>
+    </symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </symbol>
+    <symbol id="icon-layers" viewBox="0 0 24 24">
+      <path d="m12 2 9 5-9 5-9-5z"></path>
+      <path d="m3 12 9 5 9-5"></path>
+      <path d="m3 17 9 5 9-5"></path>
+    </symbol>
+    <symbol id="icon-target" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"></circle>
+      <circle cx="12" cy="12" r="6"></circle>
+      <circle cx="12" cy="12" r="2"></circle>
+    </symbol>
+    <symbol id="icon-trending-up" viewBox="0 0 24 24">
+      <path d="m22 7-8.5 8.5-5-5L2 17"></path>
+      <path d="M16 7h6v6"></path>
+    </symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+    </symbol>
+    <symbol id="icon-book-open" viewBox="0 0 24 24">
+      <path d="M2 4h7a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H2z"></path>
+      <path d="M22 4h-7a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h7z"></path>
+    </symbol>
+    <symbol id="icon-heart" viewBox="0 0 24 24">
+      <path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3.4.9-4.5 2.2C10.9 3.9 9.3 3 7.5 3A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"></path>
+    </symbol>
+    <symbol id="icon-award" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="6"></circle>
+      <path d="M15.5 13 17 22l-5-3-5 3 1.5-9"></path>
+    </symbol>
+    <symbol id="icon-refresh" viewBox="0 0 24 24">
+      <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+      <path d="M21 3v5h-5"></path>
+      <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+      <path d="M3 21v-5h5"></path>
+    </symbol>
+    <symbol id="icon-building" viewBox="0 0 24 24">
+      <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+      <path d="M9 22v-4h6v4"></path>
+      <path d="M8 6h.01"></path>
+      <path d="M12 6h.01"></path>
+      <path d="M16 6h.01"></path>
+      <path d="M8 10h.01"></path>
+      <path d="M12 10h.01"></path>
+      <path d="M16 10h.01"></path>
+      <path d="M8 14h.01"></path>
+      <path d="M12 14h.01"></path>
+      <path d="M16 14h.01"></path>
+    </symbol>
+    <symbol id="icon-upload" viewBox="0 0 24 24">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <path d="m7 8 5-5 5 5"></path>
+      <path d="M12 3v12"></path>
+    </symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+      <path d="M16 2v4"></path>
+      <path d="M8 2v4"></path>
+      <path d="M3 10h18"></path>
+    </symbol>
+    <symbol id="icon-graduation" viewBox="0 0 24 24">
+      <path d="M22 9 12 4 2 9l10 5z"></path>
+      <path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"></path>
+      <path d="M22 9v6"></path>
+    </symbol>
+    <symbol id="icon-quote" viewBox="0 0 24 24">
+      <path d="M3 21c3-1 5-3.5 5-7V5H3v6h5"></path>
+      <path d="M14 21c3-1 5-3.5 5-7V5h-5v6h5"></path>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <path d="M20 6 9 17l-5-5"></path>
+    </symbol>
+    <symbol id="icon-filter" viewBox="0 0 24 24">
+      <path d="M22 3H2l8 9v7l4 2v-9z"></path>
+    </symbol>
+    <symbol id="icon-globe" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M2 12h20"></path>
+      <path d="M12 2a15 15 0 0 1 0 20"></path>
+      <path d="M12 2a15 15 0 0 0 0 20"></path>
+    </symbol>
+    <symbol id="icon-chevron-right" viewBox="0 0 24 24">
+      <path d="m9 18 6-6-6-6"></path>
+    </symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24">
+      <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+      <path d="m22 7-10 6L2 7"></path>
+    </symbol>
+    <symbol id="icon-phone" viewBox="0 0 24 24">
+      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"></path>
+    </symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#home" data-route="home" aria-label="新世界人才中心首页">
+        <span class="brand-mark">
+          <svg class="icon" aria-hidden="true"><use href="#icon-compass"></use></svg>
+        </span>
+        <span class="brand-copy">
+          <strong>新世界人才中心</strong>
+          <small>Talent &amp; Growth</small>
+        </span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="主导航">
+        <a href="#home" data-route="home" data-nav="home">首页</a>
+        <a href="#jobs" data-route="jobs" data-nav="jobs">招聘岗位</a>
+        <a href="#growth" data-route="growth" data-nav="growth">成长计划</a>
+        <a href="#stories" data-route="stories" data-nav="stories">员工故事</a>
+        <a href="#benefits" data-route="benefits" data-nav="benefits">员工福利</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="language-switch" role="group" aria-label="Language / 语言 / 語言">
+          <button class="lang-btn is-active" type="button" data-set-lang="zh-CN" aria-pressed="true">简</button>
+          <button class="lang-btn" type="button" data-set-lang="zh-HK" aria-pressed="false">繁</button>
+          <button class="lang-btn" type="button" data-set-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a class="btn btn-primary" href="#jobs" data-route="jobs">
+          查看岗位
+          <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+        </a>
+        <button class="icon-btn menu-btn" id="menuButton" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+          <svg class="icon" id="menuIcon" aria-hidden="true"><use href="#icon-menu"></use></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav aria-label="移动端导航">
+      <a href="#home" data-route="home">首页 <svg class="icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></a>
+      <a href="#jobs" data-route="jobs">招聘岗位 <svg class="icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></a>
+      <a href="#growth" data-route="growth">成长计划 <svg class="icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></a>
+      <a href="#stories" data-route="stories">员工故事 <svg class="icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></a>
+      <a href="#benefits" data-route="benefits">员工福利 <svg class="icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg></a>
+    </nav>
+    <a class="btn btn-primary mobile-cta" href="#jobs" data-route="jobs">
+      浏览全部岗位
+      <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+    </a>
+  </div>
+
+  <main id="main-content">
+    <!-- 模块一：招聘首页 -->
+    <div class="view" id="view-home">
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-media">
+          <img src="assets/images/hero-hong-kong.jpg" alt="香港维多利亚港沿岸城市天际线夜景" fetchpriority="high">
+        </div>
+        <div class="hero-content">
+          <p class="hero-eyebrow">城市共建者的人才入口</p>
+          <h1 id="heroTitle">把长期主义，<br>变成你的职业可能。</h1>
+          <p class="hero-lead">从城市空间到商业服务，我们为愿意持续成长的人，提供多元业务、真实项目和清晰的长期发展通道。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#jobs" data-route="jobs">
+              浏览开放岗位
+              <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+            </a>
+            <a class="btn btn-secondary" href="#growth" data-route="growth">
+              了解青穗计划
+              <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+            </a>
+          </div>
+          <ul class="hero-signals">
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>跨业务轮岗</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>导师制陪伴</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>成果导向评估</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="philosophy" aria-labelledby="philosophyTitle">
+        <div class="container-wide">
+          <div class="section-head center">
+            <p class="eyebrow">人才理念</p>
+            <h2 id="philosophyTitle">我们不只招聘一份工作，<br>更在寻找愿意共同成长的人。</h2>
+            <p>招聘不是一个单向筛选动作。我们希望候选人清楚看见，未来三年可以在哪些项目中获得反馈、承担什么责任、通往哪一条路径。</p>
+          </div>
+          <div class="philosophy-grid">
+            <article class="principle-card">
+              <span class="principle-number">01</span>
+              <span class="principle-icon"><svg class="icon" aria-hidden="true"><use href="#icon-trending-up"></use></svg></span>
+              <h3>长期价值优先</h3>
+              <p>招聘决策关注潜力与长期贡献，而不是只填补短期空缺。人才被期待为组织留下可复用的方法。</p>
+            </article>
+            <article class="principle-card">
+              <span class="principle-number">02</span>
+              <span class="principle-icon"><svg class="icon" aria-hidden="true"><use href="#icon-layers"></use></svg></span>
+              <h3>多元场域实践</h3>
+              <p>让人才在物业、商业、科技等不同业务中建立系统性视野，减少单一岗位带来的成长天花板。</p>
+            </article>
+            <article class="principle-card">
+              <span class="principle-number">03</span>
+              <span class="principle-icon"><svg class="icon" aria-hidden="true"><use href="#icon-target"></use></svg></span>
+              <h3>真实项目负责</h3>
+              <p>新人从第一天接触实际业务，在导师支持与可承担风险中做真实判断，而不是只做模拟练习。</p>
+            </article>
+            <article class="principle-card">
+              <span class="principle-number">04</span>
+              <span class="principle-icon"><svg class="icon" aria-hidden="true"><use href="#icon-users"></use></svg></span>
+              <h3>成长透明可见</h3>
+              <p>目标、反馈与晋升依据清晰呈现，减少模糊评价。员工知道下一步能力标准，也知道获得支持的路径。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-band" aria-label="人才发展数据示意">
+        <div class="container-wide">
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-value">3 阶段</span>
+              <span class="stat-label">应届生成长路径</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">6 类</span>
+              <span class="stat-label">内部学习资源</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">12 城市</span>
+              <span class="stat-label">跨业务发展机会</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">7 项</span>
+              <span class="stat-label">核心员工福利</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-canvas" id="employer-brand" aria-labelledby="employerTitle">
+        <div class="container-wide">
+          <div class="brand-split">
+            <div class="image-frame">
+              <img src="assets/images/employer-team.jpg" alt="团队在开放办公空间中使用笔记本电脑协作" loading="lazy">
+              <span class="image-caption"><svg class="icon" aria-hidden="true"><use href="#icon-building"></use></svg>让工作发生在真实协作中</span>
+            </div>
+            <div class="brand-copy-block">
+              <p class="eyebrow">雇主品牌</p>
+              <h3 id="employerTitle">让成长有迹可循，<br>而不只是一句口号。</h3>
+              <p class="lead">人才选择一家公司，不只是选择一份薪酬，更是选择未来三年会把时间交给怎样的环境。我们把雇主品牌建立在三个可见信号上：有反馈、有资源、有结果。</p>
+              <ul class="signal-list">
+                <li>
+                  <span class="signal-icon"><svg class="icon" aria-hidden="true"><use href="#icon-refresh"></use></svg></span>
+                  <span class="signal-copy">
+                    <strong>反馈及时发生</strong>
+                    <span>项目复盘与季度对话持续进行，问题不积压到年度评估。</span>
+                  </span>
+                </li>
+                <li>
+                  <span class="signal-icon"><svg class="icon" aria-hidden="true"><use href="#icon-book-open"></use></svg></span>
+                  <span class="signal-copy">
+                    <strong>资源真正可用</strong>
+                    <span>学习基金、导师网络与内部课程直接面向实际任务开放。</span>
+                  </span>
+                </li>
+                <li>
+                  <span class="signal-icon"><svg class="icon" aria-hidden="true"><use href="#icon-target"></use></svg></span>
+                  <span class="signal-copy">
+                    <strong>结果进入评估</strong>
+                    <span>关键成果、协作表现与能力增长共同构成晋升依据。</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="growth" aria-labelledby="growthTitle">
+        <div class="container-wide">
+          <div class="section-head split">
+            <div class="section-copy">
+              <p class="eyebrow">人才发展</p>
+              <h2 id="growthTitle">青穗计划：从校园到职业者的三段式路径</h2>
+              <p>面向应届毕业生与毕业三年内的高潜人才，通过“入局—深耕—领跑”三个时期，完成从校园到职业者的转换。培养不是延长试用期，而是提供一条清晰、可验证的成长路线。</p>
+            </div>
+          </div>
+
+          <div class="growth-layout">
+            <aside class="growth-side">
+              <span class="program-tag">应届生培养计划</span>
+              <h3>每一阶段，<br>都知道下一步在哪。</h3>
+              <p>每位成员配有业务导师与发展伙伴。阶段目标以真实项目为依据，不以完成固定课程为唯一标准。</p>
+              <a class="btn btn-outline" href="#jobs" data-route="jobs">
+                查看管培生岗位
+                <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+              </a>
+            </aside>
+
+            <div class="timeline">
+              <article class="timeline-item">
+                <span class="timeline-marker">01</span>
+                <div class="timeline-card">
+                  <div class="phase-meta">
+                    <span class="phase-duration">入局 · 0—90 天</span>
+                    <span class="phase-duration">建立认知</span>
+                  </div>
+                  <h4>看清业务，进入节奏</h4>
+                  <p>完成业务全景学习、岗位导师匹配与基础技能营，从观察一次真实项目开始理解组织的协作方式。</p>
+                </div>
+              </article>
+              <article class="timeline-item">
+                <span class="timeline-marker">02</span>
+                <div class="timeline-card">
+                  <div class="phase-meta">
+                    <span class="phase-duration">深耕 · 4—12 个月</span>
+                    <span class="phase-duration">独立负责</span>
+                  </div>
+                  <h4>承担核心任务，建立专业积累</h4>
+                  <p>在核心项目中独立负责一个模块，参与跨部门协作与季度复盘，并获得专业认证与外部课程支持。</p>
+                </div>
+              </article>
+              <article class="timeline-item">
+                <span class="timeline-marker">03</span>
+                <div class="timeline-card">
+                  <div class="phase-meta">
+                    <span class="phase-duration">领跑 · 24—36 个月</span>
+                    <span class="phase-duration">提出方向</span>
+                  </div>
+                  <h4>从执行者走向问题定义者</h4>
+                  <p>发起关键任务提案，学习管理与影响力课程，通过轮岗拓宽业务视野，并进入下一阶段晋升评估。</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-warm" id="benefits" aria-labelledby="benefitsTitle">
+        <div class="container-wide">
+          <div class="section-head center">
+            <p class="eyebrow">员工福利</p>
+            <h2 id="benefitsTitle">把支持做在成长之前</h2>
+            <p>福利不应只回应极端情况，也应支持员工在日常工作、学习与生活中保持稳定。我们围绕时间、健康、学习和回报搭建支持体系。</p>
+          </div>
+          <div class="benefit-grid">
+            <article class="benefit-card">
+              <div class="benefit-media">
+                <img src="assets/images/benefit-flexible.jpg" alt="笔记本电脑与咖啡组成的灵活办公场景" loading="lazy">
+                <svg class="icon" aria-hidden="true"><use href="#icon-clock"></use></svg>
+              </div>
+              <div class="benefit-body">
+                <h3>弹性工作安排</h3>
+                <p>核心时段协作与自主安排结合，支持混合办公、错峰通勤和个人事务协调。</p>
+              </div>
+            </article>
+            <article class="benefit-card">
+              <div class="benefit-media">
+                <img src="assets/images/benefit-health.jpg" alt="听诊器与医疗用品组成的健康保障场景" loading="lazy">
+                <svg class="icon" aria-hidden="true"><use href="#icon-heart"></use></svg>
+              </div>
+              <div class="benefit-body">
+                <h3>健康与家庭保障</h3>
+                <p>年度体检、医疗保险、心理支持与家庭关怀方案，覆盖工作内外的重要时刻。</p>
+              </div>
+            </article>
+            <article class="benefit-card">
+              <div class="benefit-media">
+                <img src="assets/images/benefit-learning.jpg" alt="堆叠的书籍与学习资料" loading="lazy">
+                <svg class="icon" aria-hidden="true"><use href="#icon-graduation"></use></svg>
+              </div>
+              <div class="benefit-body">
+                <h3>年度学习基金</h3>
+                <p>用于专业课程、认证、书籍与行业会议，支持个人把学习投入变成长期能力。</p>
+              </div>
+            </article>
+            <article class="benefit-card">
+              <div class="benefit-media">
+                <img src="assets/images/benefit-sharing.jpg" alt="团队在办公桌旁庆祝项目成功" loading="lazy">
+                <svg class="icon" aria-hidden="true"><use href="#icon-award"></use></svg>
+              </div>
+              <div class="benefit-body">
+                <h3>项目成果分享</h3>
+                <p>重要项目达成后，团队获得透明回报。贡献可以被讨论、被记录，也被合理认可。</p>
+              </div>
+            </article>
+            <article class="benefit-card">
+              <div class="benefit-media">
+                <img src="assets/images/benefit-travel.jpg" alt="旅客携带行李望向飞机的出行场景" loading="lazy">
+                <svg class="icon" aria-hidden="true"><use href="#icon-calendar"></use></svg>
+              </div>
+              <div class="benefit-body">
+                <h3>多元假期组合</h3>
+                <p>年假、志愿服务假、考试假与个人事务假组合使用，让不同阶段的需求都有空间。</p>
+              </div>
+            </article>
+            <article class="benefit-card">
+              <div class="benefit-media">
+                <img src="assets/images/benefit-transit.jpg" alt="列车驶入城市轨道交通站台" loading="lazy">
+                <svg class="icon" aria-hidden="true"><use href="#icon-globe"></use></svg>
+              </div>
+              <div class="benefit-body">
+                <h3>跨城市流动机会</h3>
+                <p>内部岗位优先开放，支持人才在业务城市间流动，让职业选择与生活选择一起被考虑。</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="stories" aria-labelledby="storiesTitle">
+        <div class="container-wide">
+          <div class="section-head split">
+            <div class="section-copy">
+              <p class="eyebrow">员工故事</p>
+              <h2 id="storiesTitle">不是宣传片，而是普通工作日的切片</h2>
+              <p>成长不一定发生在高光时刻。更多时候，它出现在一次被认真对待的提案、一次坦诚的复盘，或一次有人陪你把问题拆开的过程里。</p>
+            </div>
+          </div>
+          <div class="story-grid">
+            <article class="story-card">
+              <div class="story-media">
+                <img src="assets/images/story-operations.jpg" alt="女性员工在办公桌前工作" loading="lazy">
+                <span class="story-quote-icon"><svg class="icon" aria-hidden="true"><use href="#icon-quote"></use></svg></span>
+              </div>
+              <div class="story-body">
+                <blockquote>“最意外的是，刚入职两个月就能把提案带上业务复盘。有人认真听，也有人给出非常具体的修改建议。”</blockquote>
+                <div class="story-person">
+                  <span class="story-avatar" aria-hidden="true">林</span>
+                  <div>
+                    <strong>林亦澄</strong>
+                    <span>商业运营管培生</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="story-card">
+              <div class="story-media">
+                <img src="assets/images/story-product.jpg" alt="产品团队围绕白板讨论方案" loading="lazy">
+                <span class="story-quote-icon"><svg class="icon" aria-hidden="true"><use href="#icon-quote"></use></svg></span>
+              </div>
+              <div class="story-body">
+                <blockquote>“团队允许我带着一个没有成功的小项目复盘，而不是把它藏起来。那一次让我真正理解了长期价值。”</blockquote>
+                <div class="story-person">
+                  <span class="story-avatar" aria-hidden="true">周</span>
+                  <div>
+                    <strong>周启元</strong>
+                    <span>数字化产品经理</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="story-card">
+              <div class="story-media">
+                <img src="assets/images/story-engineering.jpg" alt="工程人员佩戴安全帽在项目现场协作" loading="lazy">
+                <span class="story-quote-icon"><svg class="icon" aria-hidden="true"><use href="#icon-quote"></use></svg></span>
+              </div>
+              <div class="story-body">
+                <blockquote>“我的导师没有替我做完，而是和我一起拆分问题。这种成长方法，三年后依然有效。”</blockquote>
+                <div class="story-person">
+                  <span class="story-avatar" aria-hidden="true">沈</span>
+                  <div>
+                    <strong>沈知夏</strong>
+                    <span>工程项目副经理</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-band" aria-labelledby="ctaTitle">
+        <div class="container-wide">
+          <div class="cta-inner">
+            <div class="cta-copy">
+              <h2 id="ctaTitle">下一段职业路径，<br>从一次坦诚对话开始。</h2>
+              <p>查看正在开放的岗位，或留下你的问题。我们不要求你已经准备好所有答案。</p>
+            </div>
+            <div class="cta-actions">
+              <a class="btn btn-primary" href="#jobs" data-route="jobs">
+                浏览全部岗位
+                <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+              </a>
+              <a class="btn btn-secondary" href="#stories" data-route="stories">
+                认识团队成员
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 模块二：岗位列表与多维筛选 -->
+    <div class="view" id="view-jobs">
+      <section class="page-hero" aria-labelledby="jobsTitle">
+        <div class="container-wide">
+          <p class="hero-eyebrow">开放岗位</p>
+          <h1 id="jobsTitle">找到与你长期同频的位置</h1>
+          <p>按部门、岗位类型、工作经验与应届生机会快速缩小范围。每个岗位都写明了职责、期待与成长回报，帮助你判断这三年是否值得投入。</p>
+        </div>
+      </section>
+
+      <section class="jobs-shell" aria-label="岗位筛选与列表">
+        <div class="container-wide">
+          <div class="jobs-toolbar">
+            <div class="search-row">
+              <div class="search-wrap">
+                <svg class="icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+                <label class="visually-hidden" for="jobSearch" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%)">搜索岗位</label>
+                <input class="search-field" id="jobSearch" type="search" placeholder="搜索岗位名称、部门或城市" autocomplete="off">
+                <button class="search-clear" id="searchClear" type="button" aria-label="清除搜索" hidden>
+                  <svg class="icon" aria-hidden="true"><use href="#icon-x"></use></svg>
+                </button>
+              </div>
+              <button class="btn btn-ghost" id="filterReset" type="button" aria-label="重置全部筛选">
+                <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#icon-refresh"></use></svg>
+                重置
+              </button>
+            </div>
+
+            <div class="filters-row">
+              <div class="filter-field">
+                <label for="departmentFilter">部门</label>
+                <select class="filter-select" id="departmentFilter">
+                  <option value="all">全部部门</option>
+                  <option value="工程与项目">工程与项目</option>
+                  <option value="商业运营">商业运营</option>
+                  <option value="数字化与技术">数字化与技术</option>
+                  <option value="市场营销与品牌">市场营销与品牌</option>
+                  <option value="综合职能">综合职能</option>
+                  <option value="应届生计划">应届生计划</option>
+                </select>
+              </div>
+              <div class="filter-field">
+                <label for="typeFilter">岗位类型</label>
+                <select class="filter-select" id="typeFilter">
+                  <option value="all">全部类型</option>
+                  <option value="全职">全职</option>
+                  <option value="管理培训生">管理培训生</option>
+                  <option value="实习">实习</option>
+                </select>
+              </div>
+              <div class="filter-field">
+                <label for="experienceFilter">工作经验</label>
+                <select class="filter-select" id="experienceFilter">
+                  <option value="all">全部经验</option>
+                  <option value="不限">不限经验</option>
+                  <option value="0-2年">0—2 年</option>
+                  <option value="3-5年">3—5 年</option>
+                  <option value="6年以上">6 年以上</option>
+                </select>
+              </div>
+              <label class="graduate-filter" for="graduateFilter">
+                <input id="graduateFilter" type="checkbox">
+                <span class="toggle-track" aria-hidden="true"></span>
+                <span>仅显示应届生可申请</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="jobs-meta-row">
+            <span class="result-count" id="resultCount" aria-live="polite"></span>
+            <button class="clear-filters" id="clearFilters" type="button">
+              <svg class="icon" aria-hidden="true"><use href="#icon-filter"></use></svg>
+              清除全部筛选条件
+            </button>
+          </div>
+
+          <div class="job-grid" id="jobGrid" aria-live="polite"></div>
+
+          <div class="empty-state" id="emptyState" hidden>
+            <span class="empty-icon"><svg class="icon" aria-hidden="true"><use href="#icon-search"></use></svg></span>
+            <h3>暂时没有完全匹配的岗位</h3>
+            <p>减少一个筛选条件，或尝试更短的关键词。</p>
+            <button class="btn btn-ghost" id="emptyReset" type="button">查看全部岗位</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 模块三：岗位详情与在线求职表单 -->
+    <div class="view" id="view-detail">
+      <section class="detail-hero" id="detailHero" aria-labelledby="detailJobTitle">
+        <div class="container-wide">
+          <nav class="breadcrumb" aria-label="返回路径">
+            <button type="button" data-route="jobs">
+              <svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg>
+              全部岗位
+            </button>
+            <span>/</span>
+            <span>岗位详情</span>
+          </nav>
+          <div class="detail-title-row">
+            <div>
+              <h1 id="detailJobTitle">岗位详情</h1>
+            </div>
+            <div class="detail-actions">
+              <a class="btn btn-secondary" href="#apply-form" id="quickApplyButton">立即申请</a>
+            </div>
+          </div>
+          <div class="detail-meta" id="detailMeta"></div>
+        </div>
+      </section>
+
+      <section class="detail-layout">
+        <div class="container-wide">
+          <div class="detail-layout-grid">
+            <div class="detail-main" id="detailMain"></div>
+            <aside class="application-panel" id="apply-form" aria-labelledby="applyTitle">
+              <h2 id="applyTitle">申请这个岗位</h2>
+              <p id="applySubtitle">提交后将在演示环境中生成申请记录，不会上传任何文件或发送至服务器。</p>
+              <form id="applicationForm" novalidate>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="applicantName">姓名 <small>*</small></label>
+                    <input class="form-control" id="applicantName" name="name" type="text" placeholder="你的姓名" required>
+                    <span class="error-message" data-error-for="applicantName"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="applicantEmail">邮箱 <small>*</small></label>
+                    <input class="form-control" id="applicantEmail" name="email" type="email" placeholder="name@example.com" required>
+                    <span class="error-message" data-error-for="applicantEmail"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="applicantPhone">手机号码 <small>*</small></label>
+                    <input class="form-control" id="applicantPhone" name="phone" type="tel" inputmode="tel" placeholder="用于后续联系" required>
+                    <span class="error-message" data-error-for="applicantPhone"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="applicantExperience">工作经验 <small>*</small></label>
+                    <select class="form-control" id="applicantExperience" name="experience" required>
+                      <option value="">请选择</option>
+                      <option value="应届">应届毕业生</option>
+                      <option value="1-2">1—2 年</option>
+                      <option value="3-5">3—5 年</option>
+                      <option value="6-9">6—9 年</option>
+                      <option value="10+">10 年以上</option>
+                    </select>
+                    <span class="error-message" data-error-for="applicantExperience"></span>
+                  </div>
+                  <div class="form-group full">
+                    <label for="resumeInput">简历文件 <small>*</small></label>
+                    <label class="file-drop" for="resumeInput">
+                      <input id="resumeInput" name="resume" type="file" accept=".pdf,.doc,.docx" required>
+                      <span class="file-copy">
+                        <svg class="icon" aria-hidden="true"><use href="#icon-upload"></use></svg>
+                        <strong>选择简历文件</strong>
+                        <span>PDF、DOC 或 DOCX，不超过 10MB</span>
+                      </span>
+                    </label>
+                    <span class="error-message" data-error-for="resumeInput"></span>
+                  </div>
+                  <div class="form-group full">
+                    <label for="portfolioLink">作品集或个人主页链接 <small>（选填）</small></label>
+                    <input class="form-control" id="portfolioLink" name="portfolio" type="url" placeholder="https://">
+                  </div>
+                  <div class="form-group full">
+                    <label for="coverLetter">申请动机 <small>*</small></label>
+                    <textarea class="form-control" id="coverLetter" name="coverLetter" placeholder="用几句话告诉我们，你为什么对这个岗位感兴趣？" required></textarea>
+                    <span class="error-message" data-error-for="coverLetter"></span>
+                  </div>
+                </div>
+                <label class="consent" for="consentCheck">
+                  <input id="consentCheck" name="consent" type="checkbox" required>
+                  <span>我确认以上信息真实有效，并同意课程原型仅用于界面演示，不进行实际数据收集。</span>
+                </label>
+                <button class="btn btn-primary submit-btn" id="submitApplication" type="submit">
+                  提交申请
+                  <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+                </button>
+                <p class="form-note">本表单为 UX/UI 课程交互原型，未连接后端服务。</p>
+              </form>
+              <div class="form-success" id="formSuccess" hidden>
+                <span class="success-icon"><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg></span>
+                <h3>申请记录已生成</h3>
+                <p id="successMessage">你的申请界面已完整走通。演示环境未发送任何数据，也不会上传文件。</p>
+                <button class="btn btn-ghost" id="resetApplication" type="button">再申请一个岗位</button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container-wide">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a class="brand" href="#home" data-route="home">
+            <span class="brand-mark">
+              <svg class="icon" aria-hidden="true"><use href="#icon-compass"></use></svg>
+            </span>
+            <span class="brand-copy">
+              <strong>新世界人才中心</strong>
+              <small>Talent &amp; Growth</small>
+            </span>
+          </a>
+          <p>以长期价值、多元业务与透明成长，支持每一位员工找到自己的职业路径。</p>
+        </div>
+        <div class="footer-column">
+          <h4>探索</h4>
+          <a href="#philosophy" data-route="philosophy">人才理念</a>
+          <a href="#growth" data-route="growth">青穗计划</a>
+          <a href="#benefits" data-route="benefits">员工福利</a>
+          <a href="#stories" data-route="stories">员工故事</a>
+        </div>
+        <div class="footer-column">
+          <h4>机会</h4>
+          <a href="#jobs" data-route="jobs">全部岗位</a>
+          <a href="#jobs" data-filter-jobs="应届生计划" data-route="jobs">应届生岗位</a>
+          <a href="#jobs" data-filter-jobs="数字化与技术" data-route="jobs">数字化与技术</a>
+          <a href="#jobs" data-filter-jobs="工程与项目" data-route="jobs">工程与项目</a>
+        </div>
+        <div class="footer-column">
+          <h4>联系我们</h4>
+          <div class="footer-contact">
+            <span><svg class="icon" aria-hidden="true"><use href="#icon-mail"></use></svg>talent@example.com</span>
+            <span><svg class="icon" aria-hidden="true"><use href="#icon-phone"></use></svg>+852 0000 0000</span>
+            <span><svg class="icon" aria-hidden="true"><use href="#icon-map-pin"></use></svg>香港 · 多城市业务网络</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 新世界人才中心 · UX/UI 课程学术原型</span>
+        <div class="footer-legal">
+          <a href="#home">隐私说明</a>
+          <a href="#home">使用条款</a>
+          <a href="#home">招聘声明</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+     "use strict";
+
+     var jobs = [
+        {
+          id: "city-development-manager",
+          title: "高级城市策划经理",
+          department: "工程与项目",
+          type: "全职",
+          experience: "6年以上",
+          freshGraduate: false,
+          location: "香港 · 中环",
+          workMode: "现场办公",
+          posted: "2 天前",
+          summary: "统筹城市更新项目的策划边界、资源节奏与多方沟通，让长期价值落实到可执行计划。",
+          lead: "你将与城市研究、设计与项目团队一起，把复杂地块的发展可能转化为清晰、可验证的推进方案。这个岗位需要既看长期，也愿意进入细节。",
+          responsibilities: [
+            "主导重点城市更新项目的策划边界、阶段目标与风险清单。",
+            "协调设计、工程、财务与外部合作方，推动关键决策按时形成。",
+            "建立项目信息视图，让不同角色在同一事实基础上协作。",
+            "参与项目复盘，沉淀可复用的策划方法与判断框架。"
+          ],
+          requirements: [
+            "6 年以上城市发展、建筑策划或大型项目管理经验。",
+            "能够把政策、市场与空间条件整合成可执行的方案。",
+            "擅长跨专业沟通，能够在信息不完整时推动有序决策。",
+            "具备商业判断力，也重视项目对城市的长期影响。"
+          ],
+          growth: [
+            { title: "参与复杂度", text: "直接进入多业务协同的重点项目。" },
+            { title: "决策可见", text: "在关键评审中陈述并承担方案判断。" },
+            { title: "长期路径", text: "面向城市发展项目负责人成长。" }
+          ]
+        },
+        {
+          id: "retail-operations-supervisor",
+          title: "商业运营主管",
+          department: "商业运营",
+          type: "全职",
+          experience: "3-5年",
+          freshGraduate: false,
+          location: "香港 · 尖沙咀",
+          workMode: "现场办公",
+          posted: "5 天前",
+          summary: "负责商业空间的日常运营质量、商户协作与现场服务体验，让经营指标与服务口碑同步提升。",
+          lead: "这是一个既要看懂数据，也要经常走进现场的角色。你将与商户、物业和顾客服务团队共同维护一个有温度的商业空间。",
+          responsibilities: [
+            "制定商业空间的日常运营标准与服务检查机制。",
+            "分析客流、销售与体验数据，提出针对性改进动作。",
+            "协调商户需求与物业交付，跟进问题闭环。",
+            "参与节庆活动、空间调整与新商户进场支持。"
+          ],
+          requirements: [
+            "3—5 年商业运营、零售管理或客户体验相关经验。",
+            "具备数据意识，能够把经营问题转化为改进动作。",
+            "善于处理现场冲突，保持专业与稳定。",
+            "适应弹性排班与多任务节奏。"
+          ],
+          growth: [
+            { title: "业务视野", text: "接触商业空间全周期运营。" },
+            { title: "管理经验", text: "带领现场小组完成服务质量目标。" },
+            { title: "长期路径", text: "可向商业运营经理发展。" }
+          ]
+        },
+        {
+          id: "digital-product-manager",
+          title: "数字化产品经理",
+          department: "数字化与技术",
+          type: "全职",
+          experience: "3-5年",
+          freshGraduate: false,
+          location: "香港 · 中环",
+          workMode: "混合办公",
+          posted: "1 天前",
+          summary: "把内部业务需求与用户任务转化为清晰的产品方案，与设计、工程团队一起完成从验证到落地。",
+          lead: "你不只负责写需求，也要负责问对问题。我们更看重能否在资源有限时，找到真正值得做的产品方向。",
+          responsibilities: [
+            "梳理业务目标与用户任务，定义问题优先级与验证路径。",
+            "与体验设计、工程和数据团队共同完成方案落地。",
+            "持续跟踪产品指标，用真实反馈迭代版本。",
+            "输出产品决策记录，减少重复解释与隐性成本。"
+          ],
+          requirements: [
+            "3—5 年数字化产品、项目或体验设计相关经验。",
+            "能理解业务流程，也能用简单语言说明复杂方案。",
+            "具备数据分析与实验意识，不依赖主观喜好决策。",
+            "有跨团队推动经验，能够管理预期与节奏。"
+          ],
+          growth: [
+            { title: "端到端实践", text: "完整经历从发现到发布的产品周期。" },
+            { title: "影响力", text: "参与业务数字化路线制定。" },
+            { title: "长期路径", text: "可向高级产品经理或产品负责人发展。" }
+          ]
+        },
+        {
+          id: "frontend-experience-engineer",
+          title: "前端体验工程师",
+          department: "数字化与技术",
+          type: "全职",
+          experience: "0-2年",
+          freshGraduate: true,
+          location: "香港 · 九龙湾",
+          workMode: "混合办公",
+          posted: "4 天前",
+          summary: "参与内部服务与顾客端产品的界面开发，关注性能、可访问性和可维护的交互质量。",
+          lead: "我们希望工程与设计在同一张桌上工作。你会参与组件、页面和体验细节的实现，也会有机会提出自己的技术判断。",
+          responsibilities: [
+            "使用现代前端技术实现响应式界面与交互。",
+            "与设计团队核对交互状态、边界情况与可访问性。",
+            "参与组件规范、性能优化与代码评审。",
+            "记录技术方案，帮助团队减少重复试错。"
+          ],
+          requirements: [
+            "熟悉 HTML、CSS 与 JavaScript 基础。",
+            "有至少一个实际项目或持续开发的作品集。",
+            "关注代码可读性、响应式与基本可访问性。",
+            "愿意主动沟通，欢迎应届毕业生申请。"
+          ],
+          growth: [
+            { title: "导师支持", text: "由资深工程师结对带领项目。" },
+            { title: "真实发布", text: "参与用户可感知的产品版本。" },
+            { title: "学习基金", text: "支持认证与前端领域课程。" }
+          ]
+        },
+        {
+          id: "brand-marketing-executive",
+          title: "品牌营销主任",
+          department: "市场营销与品牌",
+          type: "全职",
+          experience: "0-2年",
+          freshGraduate: true,
+          location: "香港 · 湾仔",
+          workMode: "混合办公",
+          posted: "3 天前",
+          summary: "参与品牌内容策划、传播执行与效果分析，把品牌表达落实到真实用户触点。",
+          lead: "品牌不是只有一句口号，而是一系列被用户感受到的选择。你会在内容和传播执行中学习如何保持一致，也保留变化。",
+          responsibilities: [
+            "参与品牌传播计划、内容主题与发布节奏制定。",
+            "协调设计、内容与渠道伙伴完成传播素材。",
+            "整理传播数据与用户反馈，提出优化建议。",
+            "维护品牌表达规范在不同触点的使用。"
+          ],
+          requirements: [
+            "1 年以上品牌、内容或数字营销相关经验，优秀应届生亦可。",
+            "具备清晰的文字表达与基本视觉判断。",
+            "理解社交媒体内容生态与数据指标。",
+            "主动、守时，能够同时推进多项任务。"
+          ],
+          growth: [
+            { title: "品牌全貌", text: "参与策略到执行的完整链路。" },
+            { title: "跨团队协作", text: "与设计、商业和数字化团队共同工作。" },
+            { title: "专业积累", text: "建立内容与传播数据作品集。" }
+          ]
+        },
+        {
+          id: "graduate-management-trainee",
+          title: "青穗计划管理培训生",
+          department: "应届生计划",
+          type: "管理培训生",
+          experience: "不限",
+          freshGraduate: true,
+          location: "香港 · 多城市",
+          workMode: "轮岗安排",
+          posted: "7 天前",
+          summary: "通过三段式培养与跨业务轮岗，找到专业方向，并在真实项目中建立第一份职业积累。",
+          lead: "这不是一条被完全写好的路线。我们提供结构、导师和真实项目，而你需要在轮岗中逐渐确认自己擅长什么、愿意长期投入什么。",
+          responsibilities: [
+            "完成业务全景学习、岗位导师匹配与基础能力课程。",
+            "在至少两个业务方向参与真实项目并承担具体模块。",
+            "参与季度复盘，输出个人成长记录与阶段目标。",
+            "根据轮岗表现与个人意愿进入更聚焦的发展通道。"
+          ],
+          requirements: [
+            "2025—2027 年应届毕业生，本科或以上学历。",
+            "专业不限，对城市发展、商业运营、数字化或综合职能有兴趣。",
+            "具备主动沟通、问题拆解与团队协作能力。",
+            "能够接受业务城市间轮岗安排。"
+          ],
+          growth: [
+            { title: "三段路径", text: "入局、深耕、领跑，目标清晰可验证。" },
+            { title: "双导师制", text: "业务导师与发展伙伴共同支持。" },
+            { title: "跨业务视野", text: "在真实项目中建立组织全局观。" }
+          ]
+        },
+        {
+          id: "commercial-data-analyst",
+          title: "商业数据分析师",
+          department: "数字化与技术",
+          type: "全职",
+          experience: "0-2年",
+          freshGraduate: true,
+          location: "香港 · 中环",
+          workMode: "混合办公",
+          posted: "6 天前",
+          summary: "把商业运营数据转化为可读、可行动的洞察，为经营决策提供稳定的事实基础。",
+          lead: "数据工作的价值不在图表数量，而在是否帮助业务更早发现问题。我们希望你把分析做得清楚，也愿意持续追问结论。",
+          responsibilities: [
+            "建立并维护商业运营指标看板与数据口径。",
+            "分析客流、销售、会员与活动表现，输出阶段性洞察。",
+            "与业务团队共同定义问题，验证假设。",
+            "沉淀分析模板，提高团队决策效率。"
+          ],
+          requirements: [
+            "统计学、商业分析、计算机或相关背景。",
+            "熟悉 SQL 与一种常用数据分析工具。",
+            "能清晰呈现分析过程与业务结论。",
+            "欢迎应届毕业生或 1—2 年经验候选人。"
+          ],
+          growth: [
+            { title: "业务理解", text: "直接参与经营例会与指标讨论。" },
+            { title: "工具方法", text: "学习数据建模与可视化最佳实践。" },
+            { title: "长期路径", text: "可向高级商业分析师发展。" }
+          ]
+        },
+        {
+          id: "talent-development-partner",
+          title: "人才发展伙伴",
+          department: "综合职能",
+          type: "全职",
+          experience: "3-5年",
+          freshGraduate: false,
+          location: "香港 · 中环",
+          workMode: "混合办公",
+          posted: "8 天前",
+          summary: "与业务负责人共同识别关键能力缺口，设计学习项目与人才对话机制，支持组织长期成长。",
+          lead: "你将站在业务与人才之间，不把培训当作交付课程，而是帮助团队找到真正能改变工作方式的学习方案。",
+          responsibilities: [
+            "诊断业务团队的能力需求与关键岗位发展路径。",
+            "设计混合式学习项目，跟进学习成果落地。",
+            "支持绩效对话、导师计划与内部人才流动。",
+            "评估学习项目效果，形成可持续改进机制。"
+          ],
+          requirements: [
+            "3—5 年人才发展、组织发展或学习项目经验。",
+            "具备需求诊断、课程设计与项目运营能力。",
+            "能与业务负责人建立信任，推动共识。",
+            "对数据与学习体验都有基本敏感度。"
+          ],
+          growth: [
+            { title: "组织视角", text: "参与人才标准与继任计划讨论。" },
+            { title: "方法多样", text: "实践工作坊、行动学习与导师制。" },
+            { title: "长期路径", text: "可向人才发展负责人发展。" }
+          ]
+        },
+        {
+          id: "sustainability-specialist",
+          title: "可持续发展专员",
+          department: "工程与项目",
+          type: "全职",
+          experience: "0-2年",
+          freshGraduate: true,
+          location: "香港 · 中环",
+          workMode: "混合办公",
+          posted: "9 天前",
+          summary: "支持可持续议题的数据整理、项目协调与内部传播，让长期责任进入日常经营。",
+          lead: "可持续不是一份单独的报告，而是一连串选择。你会在项目协调中学习，如何把愿景变成可检查、可推进的行动。",
+          responsibilities: [
+            "收集并整理可持续相关数据与项目进展。",
+            "协调跨部门议题小组，跟进行动项闭环。",
+            "参与可持续报告、内外部沟通材料准备。",
+            "关注行业标准与最佳实践，形成知识简报。"
+          ],
+          requirements: [
+            "环境、城市研究、公共政策或相关背景。",
+            "具备资料整合、数据分析与书面表达能力。",
+            "能够理解不同部门的业务语言。",
+            "欢迎应届毕业生或 1—2 年经验候选人。"
+          ],
+          growth: [
+            { title: "议题深度", text: "参与长期可持续项目与标准研究。" },
+            { title: "多方协调", text: "与工程、商业与外部机构共同推进。" },
+            { title: "长期路径", text: "可向可持续发展经理发展。" }
+          ]
+        },
+        {
+          id: "finance-planning-analyst",
+          title: "财务计划与分析主任",
+          department: "综合职能",
+          type: "全职",
+          experience: "0-2年",
+          freshGraduate: true,
+          location: "香港 · 中环",
+          workMode: "混合办公",
+          posted: "10 天前",
+          summary: "参与业务计划、预算与经营分析，用清晰数据帮助团队理解资源应投向哪里。",
+          lead: "财务分析不只是汇总数字。我们希望你能够连接数字背后的业务动作，帮助决策者看见选项和代价。",
+          responsibilities: [
+            "支持业务预算编制、滚动预测与差异分析。",
+            "维护管理报表口径，提升数据准确性与及时性。",
+            "参与项目投资回报与经营效率分析。",
+            "协助财务数字化工具的需求梳理与测试。"
+          ],
+          requirements: [
+            "财务、会计、经济或相关背景。",
+            "熟悉 Excel 与基本财务模型，了解 SQL 更佳。",
+            "具备严谨、细致与主动核对的习惯。",
+            "欢迎应届毕业生或 1—2 年经验候选人。"
+          ],
+          growth: [
+            { title: "业务连接", text: "与多业务团队共同完成计划与复盘。" },
+            { title: "专业认证", text: "获得相关专业资格学习支持。" },
+            { title: "长期路径", text: "可向业务财务伙伴发展。" }
+          ]
+        },
+        {
+          id: "leasing-business-manager",
+          title: "商业租赁业务经理",
+          department: "商业运营",
+          type: "全职",
+          experience: "6年以上",
+          freshGraduate: false,
+          location: "香港 · 尖沙咀",
+          workMode: "现场办公",
+          posted: "11 天前",
+          summary: "负责商业空间的品牌组合、租赁谈判与租户关系，让空间内容与长期运营目标相互成就。",
+          lead: "好的租赁不是完成一张合同，而是为空间找到适合的内容，也为商户找到可持续的位置。你需要商业判断、沟通耐心和长期视角。",
+          responsibilities: [
+            "制定租赁策略与品牌组合方案。",
+            "推进重点租户谈判、合同条款与交付安排。",
+            "维护租户关系，跟进经营表现与续租决策。",
+            "结合市场趋势提出空间内容调整建议。"
+          ],
+          requirements: [
+            "6 年以上商业租赁、零售拓展或商业地产经验。",
+            "熟悉商业租赁流程、市场数据与合同要点。",
+            "具备成熟的谈判能力与客户关系网络。",
+            "能够平衡商业回报与空间长期定位。"
+          ],
+          growth: [
+            { title: "策略责任", text: "参与重点商业空间定位决策。" },
+            { title: "关系资产", text: "建立跨行业租户与品牌网络。" },
+            { title: "长期路径", text: "可向商业运营负责人发展。" }
+          ]
+        },
+        {
+          id: "brand-design-intern",
+          title: "品牌设计实习生",
+          department: "市场营销与品牌",
+          type: "实习",
+          experience: "不限",
+          freshGraduate: true,
+          location: "香港 · 湾仔",
+          workMode: "混合办公",
+          posted: "12 天前",
+          summary: "参与品牌传播物料、活动视觉与数字内容设计，在真实任务中建立专业作品集。",
+          lead: "你不只是做辅助裁切。我们希望实习生在真实传播项目中参与构思、执行和修改，并理解设计决策背后的品牌与传播目标。",
+          responsibilities: [
+            "根据品牌表达规范完成传播物料与数字内容设计。",
+            "参与活动视觉的方向探索与版本迭代。",
+            "与营销、内容团队沟通需求与修改意见。",
+            "整理设计文件与规范，支持团队知识沉淀。"
+          ],
+          requirements: [
+            "视觉传达、平面设计或相关专业在读或应届。",
+            "熟悉常用平面设计与原型工具。",
+            "提交可展示视觉判断与执行能力的作品集。",
+            "每周可稳定实习不少于三天。"
+          ],
+          growth: [
+            { title: "真实项目", text: "参与可对外发布的品牌物料。" },
+            { title: "设计反馈", text: "获得资深设计伙伴的定期评审。" },
+            { title: "作品积累", text: "形成可公开呈现的实习作品集。" }
+          ]
+        }
+      ];
+
+
+      var i18nRuntimeInstalled = true;
+      var supportedLangs = ["zh-CN", "zh-HK", "en"];
+      var currentLang = "zh-CN";
+      var languageStorageKey = "new-world-careers-language";
+      var uiTranslations = {
+        "zh-HK": {"跳到主要内容":"跳到主要內容","新世界人才中心":"新世界人才中心","首页":"首頁","招聘岗位":"招聘職位","成长计划":"成長計劃","员工故事":"員工故事","员工福利":"員工福利","查看岗位":"查看職位","浏览全部岗位":"瀏覽全部職位","城市共建者的人才入口":"城市共建者的人才入口","把长期主义，":"把長期主義，","变成你的职业可能。":"變成你的職業可能。","从城市空间到商业服务，我们为愿意持续成长的人，提供多元业务、真实项目和清晰的长期发展通道。":"從城市空間到商業服務，我們為願意持續成長的人，提供多元業務、真實項目和清晰的長期發展通道。","浏览开放岗位":"瀏覽開放職位","了解青穗计划":"瞭解青穗計劃","跨业务轮岗":"跨業務輪崗","导师制陪伴":"導師制陪伴","成果导向评估":"成果導向評估","人才理念":"人才理念","我们不只招聘一份工作，":"我們不只招聘一份工作，","更在寻找愿意共同成长的人。":"更在尋找願意共同成長的人。","招聘不是一个单向筛选动作。我们希望候选人清楚看见，未来三年可以在哪些项目中获得反馈、承担什么责任、通往哪一条路径。":"招聘不是一個單向篩選動作。我們希望候選人清楚看見，未來三年可以在哪些項目中獲得反饋、承擔什麼責任、通往哪一條路徑。","长期价值优先":"長期價值優先","招聘决策关注潜力与长期贡献，而不是只填补短期空缺。人才被期待为组织留下可复用的方法。":"招聘決策關注潛力與長期貢獻，而不是隻填補短期空缺。人才被期待為組織留下可複用的方法。","多元场域实践":"多元場域實踐","让人才在物业、商业、科技等不同业务中建立系统性视野，减少单一岗位带来的成长天花板。":"讓人才在物業、商業、科技等不同業務中建立系統性視野，減少單一職位帶來的成長天花板。","真实项目负责":"真實項目負責","新人从第一天接触实际业务，在导师支持与可承担风险中做真实判断，而不是只做模拟练习。":"新人從第一天接觸實際業務，在導師支持與可承擔風險中做真實判斷，而不是隻做模擬練習。","成长透明可见":"成長透明可見","目标、反馈与晋升依据清晰呈现，减少模糊评价。员工知道下一步能力标准，也知道获得支持的路径。":"目標、反饋與晉升依據清晰呈現，減少模糊評價。員工知道下一步能力標準，也知道獲得支持的路徑。","3 阶段":"3 階段","应届生成长路径":"應屆生成長路徑","6 类":"6 類","内部学习资源":"內部學習資源","12 城市":"12 城市","跨业务发展机会":"跨業務發展機會","7 项":"7 項","核心员工福利":"核心員工福利","让工作发生在真实协作中":"讓工作發生在真實協作中","雇主品牌":"僱主品牌","让成长有迹可循，":"讓成長有跡可循，","而不只是一句口号。":"而不只是一句口號。","人才选择一家公司，不只是选择一份薪酬，更是选择未来三年会把时间交给怎样的环境。我们把雇主品牌建立在三个可见信号上：有反馈、有资源、有结果。":"人才選擇一家公司，不只是選擇一份薪酬，更是選擇未來三年會把時間交給怎樣的環境。我們把僱主品牌建立在三個可見信號上：有反饋、有資源、有結果。","反馈及时发生":"反饋及時發生","项目复盘与季度对话持续进行，问题不积压到年度评估。":"項目檢討與季度對話持續進行，問題不積壓到年度評估。","资源真正可用":"資源真正可用","学习基金、导师网络与内部课程直接面向实际任务开放。":"學習基金、導師網絡與內部課程直接面向實際任務開放。","结果进入评估":"結果進入評估","关键成果、协作表现与能力增长共同构成晋升依据。":"關鍵成果、協作表現與能力增長共同構成晉升依據。","人才发展":"人才發展","青穗计划：从校园到职业者的三段式路径":"青穗計劃：從校園到職業者的三段式路徑","面向应届毕业生与毕业三年内的高潜人才，通过“入局—深耕—领跑”三个时期，完成从校园到职业者的转换。培养不是延长试用期，而是提供一条清晰、可验证的成长路线。":"面向應屆畢業生與畢業三年內的高潛人才，通過“入局—深耕—領跑”三個時期，完成從校園到職業者的轉換。培養不是延長試用期，而是提供一條清晰、可驗證的成長路線。","应届生培养计划":"應屆生培養計劃","每一阶段，":"每一階段，","都知道下一步在哪。":"都知道下一步在哪。","每位成员配有业务导师与发展伙伴。阶段目标以真实项目为依据，不以完成固定课程为唯一标准。":"每位成員配有業務導師與發展夥伴。階段目標以真實項目為依據，不以完成固定課程為唯一標準。","查看管培生岗位":"查看管理培訓生職位","入局 · 0—90 天":"入局 · 0—90 天","建立认知":"建立認知","看清业务，进入节奏":"看清業務，進入節奏","完成业务全景学习、岗位导师匹配与基础技能营，从观察一次真实项目开始理解组织的协作方式。":"完成業務全景學習、職位導師匹配與基礎技能營，從觀察一次真實項目開始理解組織的協作方式。","深耕 · 4—12 个月":"深耕 · 4—12 個月","独立负责":"獨立負責","承担核心任务，建立专业积累":"承擔核心任務，建立專業積累","在核心项目中独立负责一个模块，参与跨部门协作与季度复盘，并获得专业认证与外部课程支持。":"在核心項目中獨立負責一個模塊，參與跨部門協作與季度檢討，並獲得專業認證與外部課程支持。","领跑 · 24—36 个月":"領跑 · 24—36 個月","提出方向":"提出方向","从执行者走向问题定义者":"從執行者走向問題定義者","发起关键任务提案，学习管理与影响力课程，通过轮岗拓宽业务视野，并进入下一阶段晋升评估。":"發起關鍵任務提案，學習管理與影響力課程，通過輪崗拓寬業務視野，並進入下一階段晉升評估。","把支持做在成长之前":"把支持做在成長之前","福利不应只回应极端情况，也应支持员工在日常工作、学习与生活中保持稳定。我们围绕时间、健康、学习和回报搭建支持体系。":"福利不應只回應極端情況，也應支持員工在日常工作、學習與生活中保持穩定。我們圍繞時間、健康、學習和回報搭建支持體系。","弹性工作安排":"彈性工作安排","核心时段协作与自主安排结合，支持混合办公、错峰通勤和个人事务协调。":"核心時段協作與自主安排結合，支持混合辦公、錯峯通勤和個人事務協調。","健康与家庭保障":"健康與家庭保障","年度体检、医疗保险、心理支持与家庭关怀方案，覆盖工作内外的重要时刻。":"年度體檢、醫療保險、心理支持與家庭關懷方案，覆蓋工作內外的重要時刻。","年度学习基金":"年度學習基金","用于专业课程、认证、书籍与行业会议，支持个人把学习投入变成长期能力。":"用於專業課程、認證、書籍與行業會議，支持個人把學習投入變成長期能力。","项目成果分享":"項目成果分享","重要项目达成后，团队获得透明回报。贡献可以被讨论、被记录，也被合理认可。":"重要項目達成後，團隊獲得透明回報。貢獻可以被討論、被記錄，也被合理認可。","多元假期组合":"多元假期組合","年假、志愿服务假、考试假与个人事务假组合使用，让不同阶段的需求都有空间。":"年假、志願服務假、考試假與個人事務假組合使用，讓不同階段的需求都有空間。","跨城市流动机会":"跨城市流動機會","内部岗位优先开放，支持人才在业务城市间流动，让职业选择与生活选择一起被考虑。":"內部職位優先開放，支持人才在業務城市間流動，讓職業選擇與生活選擇一起被考慮。","不是宣传片，而是普通工作日的切片":"不是宣傳片，而是普通工作日的切片","成长不一定发生在高光时刻。更多时候，它出现在一次被认真对待的提案、一次坦诚的复盘，或一次有人陪你把问题拆开的过程里。":"成長不一定發生在高光時刻。更多時候，它出現在一次被認真對待的提案、一次坦誠的檢討，或一次有人陪你把問題拆開的過程裏。","“最意外的是，刚入职两个月就能把提案带上业务复盘。有人认真听，也有人给出非常具体的修改建议。”":"“最意外的是，剛入職兩個月就能把提案帶上業務檢討。有人認真聽，也有人給出非常具體的修改建議。”","林":"林","林亦澄":"林亦澄","商业运营管培生":"商業運營管理培訓生","“团队允许我带着一个没有成功的小项目复盘，而不是把它藏起来。那一次让我真正理解了长期价值。”":"“團隊允許我帶着一個沒有成功的小項目檢討，而不是把它藏起來。那一次讓我真正理解了長期價值。”","周":"周","周启元":"周啓元","数字化产品经理":"數碼化產品經理","“我的导师没有替我做完，而是和我一起拆分问题。这种成长方法，三年后依然有效。”":"“我的導師沒有替我做完，而是和我一起拆分問題。這種成長方法，三年後依然有效。”","沈":"沈","沈知夏":"沈知夏","工程项目副经理":"工程項目副經理","下一段职业路径，":"下一段職業路徑，","从一次坦诚对话开始。":"從一次坦誠對話開始。","查看正在开放的岗位，或留下你的问题。我们不要求你已经准备好所有答案。":"查看正在開放的職位，或留下你的問題。我們不要求你已經準備好所有答案。","认识团队成员":"認識團隊成員","开放岗位":"開放職位","找到与你长期同频的位置":"找到與你長期同頻的位置","按部门、岗位类型、工作经验与应届生机会快速缩小范围。每个岗位都写明了职责、期待与成长回报，帮助你判断这三年是否值得投入。":"按部門、職位類型、工作經驗與應屆生機會快速縮小範圍。每個職位都寫明瞭職責、期待與成長回報，幫助你判斷這三年是否值得投入。","搜索岗位":"搜索職位","搜索岗位名称、部门或城市":"搜索職位名稱、部門或城市","清除搜索":"清除搜索","重置全部筛选":"重置全部篩選","重置":"重置","部门":"部門","全部部门":"全部部門","工程与项目":"工程與項目","商业运营":"商業運營","数字化与技术":"數碼化與技術","市场营销与品牌":"市場營銷與品牌","综合职能":"綜合職能","应届生计划":"應屆生計劃","岗位类型":"職位類型","全部类型":"全部類型","全职":"全職","管理培训生":"管理培訓生","实习":"實習","工作经验":"工作經驗","全部经验":"全部經驗","不限经验":"不限經驗","0—2 年":"0—2 年","3—5 年":"3—5 年","6 年以上":"6 年以上","仅显示应届生可申请":"僅顯示應屆生可申請","清除全部筛选条件":"清除全部篩選條件","暂时没有完全匹配的岗位":"暫時沒有完全匹配的職位","减少一个筛选条件，或尝试更短的关键词。":"減少一個篩選條件，或嘗試更短的關鍵詞。","查看全部岗位":"查看全部職位","返回路径":"返回路徑","全部岗位":"全部職位","岗位详情":"職位詳情","立即申请":"立即申請","申请这个岗位":"申請這個職位","提交后将在演示环境中生成申请记录，不会上传任何文件或发送至服务器。":"提交後將在演示環境中生成申請記錄，不會上載任何檔案或發送至伺服器。","姓名":"姓名","你的姓名":"你的姓名","邮箱":"郵箱","手机号码":"手機號碼","用于后续联系":"用於後續聯繫","请选择":"請選擇","应届毕业生":"應屆畢業生","1—2 年":"1—2 年","6—9 年":"6—9 年","10 年以上":"10 年以上","简历文件":"履歷檔案","选择简历文件":"選擇履歷檔案","PDF、DOC 或 DOCX，不超过 10MB":"PDF、DOC 或 DOCX，不超過 10MB","作品集或个人主页链接":"作品集或個人主頁鏈接","（选填）":"（選填）","申请动机":"申請動機","用几句话告诉我们，你为什么对这个岗位感兴趣？":"用幾句話告訴我們，你為什麼對這個職位感興趣？","我确认以上信息真实有效，并同意课程原型仅用于界面演示，不进行实际数据收集。":"我確認以上資訊真實有效，並同意課程原型僅用於介面演示，不進行實際數據收集。","提交申请":"提交申請","本表单为 UX/UI 课程交互原型，未连接后端服务。":"本表單為 UX/UI 課程交互原型，未連接後端服務。","申请记录已生成":"申請記錄已生成","你的申请界面已完整走通。演示环境未发送任何数据，也不会上传文件。":"你的申請介面已完整走通。演示環境未發送任何數據，也不會上載檔案。","再申请一个岗位":"再申請一個職位","以长期价值、多元业务与透明成长，支持每一位员工找到自己的职业路径。":"以長期價值、多元業務與透明成長，支持每一位員工找到自己的職業路徑。","探索":"探索","青穗计划":"青穗計劃","机会":"機會","应届生岗位":"應屆生職位","联系我们":"聯繫我們","香港 · 多城市业务网络":"香港 · 多城市業務網絡","© 2026 新世界人才中心 · UX/UI 课程学术原型":"© 2026 新世界人才中心 · UX/UI 課程學術原型","隐私说明":"隱私説明","使用条款":"使用條款","招聘声明":"招聘聲明","打开菜单":"打開選單","关闭菜单":"關閉選單","个匹配岗位":"個匹配職位","查看岗位：":"查看職位：","发布于 ":"發佈於 ","岗位介绍":"職位介紹","你将负责":"你將負責","我们期待":"我們期待","成长回报":"成長回報","申请岗位：":"申請職位：","请填写这一项。":"請填寫這一項。","请输入有效的邮箱地址。":"請輸入有效的郵箱地址。","请输入有效的手机号码。":"請輸入有效的手機號碼。","请选择一份简历文件。":"請選擇一份履歷檔案。","申请动机请至少写 20 个字。":"申請動機請至少寫 20 個字。","已选择：":"已選擇：","课程原型不会上传该文件":"課程原型不會上載該檔案","，你的申请界面已完整走通。演示环境未发送任何数据，也不会上传文件。":"，你的申請介面已完整走通。演示環境未發送任何數據，也不會上載檔案。","招聘门户重构原型":"招聘門户重構原型","香港维多利亚港沿岸城市天际线夜景":"香港維多利亞港沿岸城市天際線夜景","团队在开放办公空间中使用笔记本电脑协作":"團隊在開放辦公空間中使用筆記本電腦協作","笔记本电脑与咖啡组成的灵活办公场景":"筆記本電腦與咖啡組成的靈活辦公場景","听诊器与医疗用品组成的健康保障场景":"聽診器與醫療用品組成的健康保障場景","堆叠的书籍与学习资料":"堆疊的書籍與學習資料","团队在办公桌旁庆祝项目成功":"團隊在辦公桌旁慶祝項目成功","旅客携带行李望向飞机的出行场景":"旅客攜帶行李望向飛機的出行場景","列车驶入城市轨道交通站台":"列車駛入城市軌道交通月台","女性员工在办公桌前工作":"女性員工在辦公桌前工作","产品团队围绕白板讨论方案":"產品團隊圍繞白板討論方案","工程人员佩戴安全帽在项目现场协作":"工程人員佩戴安全帽在項目現場協作","新世界人才中心首页":"新世界人才中心首頁","主导航":"主導航","移动端导航":"移動端導航","岗位筛选与列表":"職位篩選與列表","人才发展数据示意":"人才發展數據示意","企业招聘官网 UX/UI 学术重构原型，包含招聘首页、岗位筛选、岗位详情与在线求职表单。":"企業招聘官網 UX/UI 學術重構原型，包含招聘首頁、職位篩選、職位詳情與在線求職表單。","新世界人才中心 | 招聘门户重构原型":"新世界人才中心 | 招聘門户重構原型","招聘岗位 | 新世界人才中心":"招聘職位 | 新世界人才中心","岗位详情 | 新世界人才中心":"職位詳情 | 新世界人才中心","。提交后将在演示环境中生成申请记录，不会上传任何文件或发送至服务器。":"。提交後將在演示環境中生成申請記錄，不會上載任何檔案或發送至伺服器。"},
+        "en": {"跳到主要内容":"Skip to main content","新世界人才中心":"New World Talent Hub","首页":"Home","招聘岗位":"Open roles","成长计划":"Growth programme","员工故事":"People stories","员工福利":"Benefits","查看岗位":"View roles","浏览全部岗位":"Browse all roles","城市共建者的人才入口":"A talent gateway for city builders","把长期主义，":"Turn long-term thinking ","变成你的职业可能。":"into your career possibilities.","从城市空间到商业服务，我们为愿意持续成长的人，提供多元业务、真实项目和清晰的长期发展通道。":"From urban spaces to everyday services, we offer people who want to keep growing a breadth of businesses, real projects, and a clear long-term path.","浏览开放岗位":"Explore open roles","了解青穗计划":"Discover Green Shoots","跨业务轮岗":"Cross-business rotations","导师制陪伴":"Mentorship that stays close","成果导向评估":"Outcome-led reviews","人才理念":"Our talent view","我们不只招聘一份工作，":"We are not just hiring for a job; ","更在寻找愿意共同成长的人。":"we are looking for people who want to grow with us.","招聘不是一个单向筛选动作。我们希望候选人清楚看见，未来三年可以在哪些项目中获得反馈、承担什么责任、通往哪一条路径。":"Hiring should not be a one-way screening process. We want candidates to see clearly where feedback, ownership, and their next path will come from over the next three years.","长期价值优先":"Long-term value first","招聘决策关注潜力与长期贡献，而不是只填补短期空缺。人才被期待为组织留下可复用的方法。":"We hire for potential and lasting contribution, not only to fill an immediate gap. We expect people to leave reusable ways of working behind.","多元场域实践":"Practice across different fields","让人才在物业、商业、科技等不同业务中建立系统性视野，减少单一岗位带来的成长天花板。":"People build a systemic view across property, retail, and technology, reducing the ceiling created by staying in a single role.","真实项目负责":"Ownership of real projects","新人从第一天接触实际业务，在导师支持与可承担风险中做真实判断，而不是只做模拟练习。":"New joiners work on actual business from day one, making real judgments with mentor support and manageable risk rather than completing simulated exercises.","成长透明可见":"Visible, transparent growth","目标、反馈与晋升依据清晰呈现，减少模糊评价。员工知道下一步能力标准，也知道获得支持的路径。":"Goals, feedback, and promotion criteria are explicit. People know the next capability bar and where to find support.","3 阶段":"3 stages","应届生成长路径":"Graduate growth path","6 类":"6 formats","内部学习资源":"Internal learning resources","12 城市":"12 cities","跨业务发展机会":"Cross-business opportunities","7 项":"7 benefits","核心员工福利":"Core employee benefits","让工作发生在真实协作中":"Work happens through real collaboration","雇主品牌":"Employer brand","让成长有迹可循，":"Make growth visible, ","而不只是一句口号。":"not just a claim.","人才选择一家公司，不只是选择一份薪酬，更是选择未来三年会把时间交给怎样的环境。我们把雇主品牌建立在三个可见信号上：有反馈、有资源、有结果。":"Choosing an employer means choosing the environment where you will spend the next three years. We build our employer brand on three visible signals: feedback, resources, and results.","反馈及时发生":"Feedback arrives in time","项目复盘与季度对话持续进行，问题不积压到年度评估。":"Project retrospectives and quarterly conversations keep issues from piling up until annual reviews.","资源真正可用":"Resources are genuinely useful","学习基金、导师网络与内部课程直接面向实际任务开放。":"Learning funds, mentor networks, and internal courses are directly connected to real work.","结果进入评估":"Results shape reviews","关键成果、协作表现与能力增长共同构成晋升依据。":"Key outcomes, collaboration, and capability growth together inform progression.","人才发展":"Talent development","青穗计划：从校园到职业者的三段式路径":"Green Shoots: a three-stage path from campus to career","面向应届毕业生与毕业三年内的高潜人才，通过“入局—深耕—领跑”三个时期，完成从校园到职业者的转换。培养不是延长试用期，而是提供一条清晰、可验证的成长路线。":"Designed for graduates and high-potential talent within three years of graduation, the programme uses Enter, Deepen, and Lead stages to support the shift from campus to career. It is a visible growth route, not an extended probation.","应届生培养计划":"Graduate programme","每一阶段，":"At every stage, ","都知道下一步在哪。":"you know where the next step leads.","每位成员配有业务导师与发展伙伴。阶段目标以真实项目为依据，不以完成固定课程为唯一标准。":"Every member has a business mentor and a development partner. Stage goals are grounded in real projects, not completion of fixed courses alone.","查看管培生岗位":"View trainee roles","入局 · 0—90 天":"Enter · Days 0-90","建立认知":"Build context","看清业务，进入节奏":"See the business and find your rhythm","完成业务全景学习、岗位导师匹配与基础技能营，从观察一次真实项目开始理解组织的协作方式。":"Complete a business overview, mentor matching, and a core skills camp, then start understanding how the organisation collaborates by observing a live project.","深耕 · 4—12 个月":"Deepen · Months 4-12","独立负责":"Own your work","承担核心任务，建立专业积累":"Take on core work and build expertise","在核心项目中独立负责一个模块，参与跨部门协作与季度复盘，并获得专业认证与外部课程支持。":"Own one module of a core project, join cross-department work and quarterly reviews, and receive support for professional certification and external courses.","领跑 · 24—36 个月":"Lead · Months 24-36","提出方向":"Shape direction","从执行者走向问题定义者":"Move from executing to defining problems","发起关键任务提案，学习管理与影响力课程，通过轮岗拓宽业务视野，并进入下一阶段晋升评估。":"Propose a priority initiative, study management and influence, broaden your business perspective through rotation, and enter the next progression review.","把支持做在成长之前":"Support that arrives before growth is needed","福利不应只回应极端情况，也应支持员工在日常工作、学习与生活中保持稳定。我们围绕时间、健康、学习和回报搭建支持体系。":"Benefits should do more than respond to exceptions. They should help people stay steady in daily work, learning, and life, so we build support around time, health, learning, and reward.","弹性工作安排":"Flexible work arrangements","核心时段协作与自主安排结合，支持混合办公、错峰通勤和个人事务协调。":"Core collaboration hours combine with personal scheduling to support hybrid work, off-peak commuting, and life admin.","健康与家庭保障":"Health and family cover","年度体检、医疗保险、心理支持与家庭关怀方案，覆盖工作内外的重要时刻。":"Annual check-ups, medical insurance, mental health support, and family care cover the moments that matter inside and outside work.","年度学习基金":"Annual learning fund","用于专业课程、认证、书籍与行业会议，支持个人把学习投入变成长期能力。":"Use it for professional courses, certifications, books, and industry events, turning learning spend into lasting capability.","项目成果分享":"Shared project outcomes","重要项目达成后，团队获得透明回报。贡献可以被讨论、被记录，也被合理认可。":"When major projects land, the team shares a transparent reward. Contributions can be discussed, recorded, and recognised fairly.","多元假期组合":"A flexible leave mix","年假、志愿服务假、考试假与个人事务假组合使用，让不同阶段的需求都有空间。":"Annual, volunteer, examination, and personal leave can be combined to make room for different life stages.","跨城市流动机会":"Opportunities across cities","内部岗位优先开放，支持人才在业务城市间流动，让职业选择与生活选择一起被考虑。":"Internal roles open first, supporting movement across business cities so career and life choices can be weighed together.","不是宣传片，而是普通工作日的切片":"Not a film, but snapshots of ordinary working days","成长不一定发生在高光时刻。更多时候，它出现在一次被认真对待的提案、一次坦诚的复盘，或一次有人陪你把问题拆开的过程里。":"Growth rarely happens only in the spotlight. More often, it appears in a proposal taken seriously, an honest retrospective, or someone helping you take a problem apart.","“最意外的是，刚入职两个月就能把提案带上业务复盘。有人认真听，也有人给出非常具体的修改建议。”":"The surprise was bringing a proposal into a business review just two months after joining. People listened closely and gave very concrete suggestions.","林":"L","林亦澄":"Lin Yicheng","商业运营管培生":"Commercial Operations Trainee","“团队允许我带着一个没有成功的小项目复盘，而不是把它藏起来。那一次让我真正理解了长期价值。”":"The team let me review a small project that did not succeed instead of hiding it. That experience is where long-term value became real to me.","周":"Z","周启元":"Zhou Qiyuan","数字化产品经理":"Digital Product Manager","“我的导师没有替我做完，而是和我一起拆分问题。这种成长方法，三年后依然有效。”":"My mentor did not finish the work for me. We took the problem apart together, and that method still works three years later.","沈":"S","沈知夏":"Shen Zhixia","工程项目副经理":"Deputy Engineering Project Manager","下一段职业路径，":"Your next career path ","从一次坦诚对话开始。":"can start with an honest conversation.","查看正在开放的岗位，或留下你的问题。我们不要求你已经准备好所有答案。":"Explore current roles or leave us a question. You do not need to have every answer ready.","认识团队成员":"Meet the team","开放岗位":"Open roles","找到与你长期同频的位置":"Find a role that grows with you","按部门、岗位类型、工作经验与应届生机会快速缩小范围。每个岗位都写明了职责、期待与成长回报，帮助你判断这三年是否值得投入。":"Narrow your search by department, role type, experience, and graduate opportunities. Every role explains what you will own, what we look for, and how you can grow over the next three years.","搜索岗位":"Search roles","搜索岗位名称、部门或城市":"Search role title, department, or city","清除搜索":"Clear search","重置全部筛选":"Reset all filters","重置":"Reset","部门":"Department","全部部门":"All departments","工程与项目":"Engineering & Projects","商业运营":"Commercial Operations","数字化与技术":"Digital & Technology","市场营销与品牌":"Marketing & Brand","综合职能":"Corporate Functions","应届生计划":"Graduate Programme","岗位类型":"Role type","全部类型":"All types","全职":"Full-time","管理培训生":"Management Trainee","实习":"Internship","工作经验":"Experience","全部经验":"Any experience","不限经验":"No experience required","0—2 年":"0-2 years","3—5 年":"3-5 years","6 年以上":"6+ years","仅显示应届生可申请":"Graduate-eligible roles only","清除全部筛选条件":"Clear all filters","暂时没有完全匹配的岗位":"No roles match all of these filters","减少一个筛选条件，或尝试更短的关键词。":"Remove one filter or try a shorter keyword.","查看全部岗位":"View all roles","返回路径":"Breadcrumb","全部岗位":"All roles","岗位详情":"Role details","立即申请":"Apply now","申请这个岗位":"Apply for this role","提交后将在演示环境中生成申请记录，不会上传任何文件或发送至服务器。":"Submitting creates a demo application record. No files will be uploaded or sent to a server.","姓名":"Full name","你的姓名":"Your full name","邮箱":"Email","手机号码":"Phone number","用于后续联系":"For follow-up contact","请选择":"Please select","应届毕业生":"Graduate","1—2 年":"1-2 years","6—9 年":"6-9 years","10 年以上":"10+ years","简历文件":"Resume file","选择简历文件":"Choose resume file","PDF、DOC 或 DOCX，不超过 10MB":"PDF, DOC, or DOCX, up to 10MB","作品集或个人主页链接":"Portfolio or personal site link","（选填）":"(optional)","申请动机":"Why this role?","用几句话告诉我们，你为什么对这个岗位感兴趣？":"Tell us in a few sentences why this role interests you.","我确认以上信息真实有效，并同意课程原型仅用于界面演示，不进行实际数据收集。":"I confirm the information above is accurate and agree that this course prototype is for interface demonstration only and collects no real data.","提交申请":"Submit application","本表单为 UX/UI 课程交互原型，未连接后端服务。":"This form is a UX/UI course prototype and is not connected to a backend.","申请记录已生成":"Application record created","你的申请界面已完整走通。演示环境未发送任何数据，也不会上传文件。":"Your application flow is complete. No data was sent and no file was uploaded in this demo.","再申请一个岗位":"Apply for another role","以长期价值、多元业务与透明成长，支持每一位员工找到自己的职业路径。":"We help every person find a career path through long-term value, diverse businesses, and transparent growth.","探索":"Explore","青穗计划":"Green Shoots","机会":"Opportunities","应届生岗位":"Graduate roles","联系我们":"Contact us","香港 · 多城市业务网络":"Hong Kong · multi-city business network","© 2026 新世界人才中心 · UX/UI 课程学术原型":"© 2026 New World Talent Hub · UX/UI course prototype","隐私说明":"Privacy","使用条款":"Terms of use","招聘声明":"Recruitment statement","打开菜单":"Open menu","关闭菜单":"Close menu","个匹配岗位":"matching roles","查看岗位：":"View role: ","发布于 ":"Posted ","岗位介绍":"About the role","你将负责":"What you will own","我们期待":"What we look for","成长回报":"How you will grow","申请岗位：":"Applying for: ","请填写这一项。":"Please complete this field.","请输入有效的邮箱地址。":"Enter a valid email address.","请输入有效的手机号码。":"Enter a valid phone number.","请选择一份简历文件。":"Choose a resume file.","申请动机请至少写 20 个字。":"Please write at least 20 characters about your motivation.","已选择：":"Selected: ","课程原型不会上传该文件":"This course prototype will not upload the file","，你的申请界面已完整走通。演示环境未发送任何数据，也不会上传文件。":", your application flow is complete. No data was sent and no file was uploaded in this demo.","招聘门户重构原型":"Careers portal redesign prototype","香港维多利亚港沿岸城市天际线夜景":"Night skyline along Victoria Harbour in Hong Kong","团队在开放办公空间中使用笔记本电脑协作":"Team collaborating on laptops in an open office","笔记本电脑与咖啡组成的灵活办公场景":"Laptop and coffee in a flexible workspace","听诊器与医疗用品组成的健康保障场景":"Stethoscope and medical supplies representing health cover","堆叠的书籍与学习资料":"Stacked books and learning materials","团队在办公桌旁庆祝项目成功":"Team celebrating a project at their desks","旅客携带行李望向飞机的出行场景":"Traveller with luggage looking toward an aircraft","列车驶入城市轨道交通站台":"Train arriving at an urban transit platform","女性员工在办公桌前工作":"Woman working at an office desk","产品团队围绕白板讨论方案":"Product team discussing ideas around a whiteboard","工程人员佩戴安全帽在项目现场协作":"Engineers in helmets collaborating on site","新世界人才中心首页":"New World Talent Hub home","主导航":"Primary navigation","移动端导航":"Mobile navigation","岗位筛选与列表":"Role filters and list","人才发展数据示意":"Talent development data illustration","企业招聘官网 UX/UI 学术重构原型，包含招聘首页、岗位筛选、岗位详情与在线求职表单。":"An academic UX/UI redesign prototype for a corporate careers site, including a home page, role filters, role details, and an online application form.","新世界人才中心 | 招聘门户重构原型":"New World Talent Hub | Careers portal redesign prototype","招聘岗位 | 新世界人才中心":"Open roles | New World Talent Hub","岗位详情 | 新世界人才中心":"Role details | New World Talent Hub","。提交后将在演示环境中生成申请记录，不会上传任何文件或发送至服务器。":". Submitting creates a demo application record. No files will be uploaded or sent to a server."}
+      };
+      var jobTranslations = {
+        "zh-HK": {"city-development-manager":{"id":"city-development-manager","title":"高級城市策劃經理","department":"工程與項目","type":"全職","experience":"6年以上","freshGraduate":false,"location":"香港 · 中環","workMode":"現場辦公","posted":"2 天前","summary":"統籌城市更新項目的策劃邊界、資源節奏與多方溝通，讓長期價值落實到可執行計劃。","lead":"你將與城市研究、設計與項目團隊一起，把複雜地塊的發展可能轉化為清晰、可驗證的推進方案。這個職位需要既看長期，也願意進入細節。","responsibilities":["主導重點城市更新項目的策劃邊界、階段目標與風險清單。","協調設計、工程、財務與外部合作方，推動關鍵決策按時形成。","建立項目資訊視圖，讓不同角色在同一事實基礎上協作。","參與項目檢討，沉澱可複用的策劃方法與判斷框架。"],"requirements":["6 年以上城市發展、建築策劃或大型項目管理經驗。","能夠把政策、市場與空間條件整合成可執行的方案。","擅長跨專業溝通，能夠在資訊不完整時推動有序決策。","具備商業判斷力，也重視項目對城市的長期影響。"],"growth":[{"title":"參與複雜度","text":"直接進入多業務協同的重點項目。"},{"title":"決策可見","text":"在關鍵評審中陳述並承擔方案判斷。"},{"title":"長期路徑","text":"面向城市發展項目負責人成長。"}]},"retail-operations-supervisor":{"id":"retail-operations-supervisor","title":"商業運營主管","department":"商業運營","type":"全職","experience":"3-5年","freshGraduate":false,"location":"香港 · 尖沙咀","workMode":"現場辦公","posted":"5 天前","summary":"負責商業空間的日常運營質素、商户協作與現場服務體驗，讓經營指標與服務口碑同步提升。","lead":"這是一個既要看懂數據，也要經常走進現場的角色。你將與商户、物業和顧客服務團隊共同維護一個有温度的商業空間。","responsibilities":["制定商業空間的日常運營標準與服務檢查機制。","分析客流、銷售與體驗數據，提出針對性改進動作。","協調商户需求與物業交付，跟進問題閉環。","參與節慶活動、空間調整與新商户進場支持。"],"requirements":["3—5 年商業運營、零售管理或客户體驗相關經驗。","具備數據意識，能夠把經營問題轉化為改進動作。","善於處理現場衝突，保持專業與穩定。","適應彈性排班與多任務節奏。"],"growth":[{"title":"業務視野","text":"接觸商業空間全週期運營。"},{"title":"管理經驗","text":"帶領現場小組完成服務質素目標。"},{"title":"長期路徑","text":"可向商業運營經理發展。"}]},"digital-product-manager":{"id":"digital-product-manager","title":"數碼化產品經理","department":"數碼化與技術","type":"全職","experience":"3-5年","freshGraduate":false,"location":"香港 · 中環","workMode":"混合辦公","posted":"1 天前","summary":"把內部業務需求與用户任務轉化為清晰的產品方案，與設計、工程團隊一起完成從驗證到落地。","lead":"你不只負責寫需求，也要負責問對問題。我們更看重能否在資源有限時，找到真正值得做的產品方向。","responsibilities":["梳理業務目標與用户任務，定義問題優先級與驗證路徑。","與體驗設計、工程和數據團隊共同完成方案落地。","持續跟蹤產品指標，用真實反饋迭代版本。","輸出產品決策記錄，減少重複解釋與隱性成本。"],"requirements":["3—5 年數碼化產品、項目或體驗設計相關經驗。","能理解業務流程，也能用簡單語言説明覆雜方案。","具備數據分析與實驗意識，不依賴主觀喜好決策。","有跨團隊推動經驗，能夠管理預期與節奏。"],"growth":[{"title":"端到端實踐","text":"完整經歷從發現到發佈的產品週期。"},{"title":"影響力","text":"參與業務數碼化路線制定。"},{"title":"長期路徑","text":"可向高級產品經理或產品負責人發展。"}]},"frontend-experience-engineer":{"id":"frontend-experience-engineer","title":"前端體驗工程師","department":"數碼化與技術","type":"全職","experience":"0-2年","freshGraduate":true,"location":"香港 · 九龍灣","workMode":"混合辦公","posted":"4 天前","summary":"參與內部服務與顧客端產品的介面開發，關注性能、可訪問性和可維護的交互質素。","lead":"我們希望工程與設計在同一張桌上工作。你會參與組件、頁面和體驗細節的實現，也會有機會提出自己的技術判斷。","responsibilities":["使用現代前端技術實現響應式介面與交互。","與設計團隊核對交互狀態、邊界情況與可訪問性。","參與組件規範、性能優化與代碼評審。","記錄技術方案，幫助團隊減少重複試錯。"],"requirements":["熟悉 HTML、CSS 與 JavaScript 基礎。","有至少一個實際項目或持續開發的作品集。","關注代碼可讀性、響應式與基本可訪問性。","願意主動溝通，歡迎應屆畢業生申請。"],"growth":[{"title":"導師支持","text":"由資深工程師結對帶領項目。"},{"title":"真實發布","text":"參與用户可感知的產品版本。"},{"title":"學習基金","text":"支持認證與前端領域課程。"}]},"brand-marketing-executive":{"id":"brand-marketing-executive","title":"品牌營銷主任","department":"市場營銷與品牌","type":"全職","experience":"0-2年","freshGraduate":true,"location":"香港 · 灣仔","workMode":"混合辦公","posted":"3 天前","summary":"參與品牌內容策劃、傳播執行與效果分析，把品牌表達落實到真實用户觸點。","lead":"品牌不是隻有一句口號，而是一系列被用户感受到的選擇。你會在內容和傳播執行中學習如何保持一致，也保留變化。","responsibilities":["參與品牌傳播計劃、內容主題與發佈節奏制定。","協調設計、內容與渠道夥伴完成傳播素材。","整理傳播數據與用户反饋，提出優化建議。","維護品牌表達規範在不同觸點的使用。"],"requirements":["1 年以上品牌、內容或數字營銷相關經驗，優秀應屆生亦可。","具備清晰的文字表達與基本視覺判斷。","理解社交媒體內容生態與數據指標。","主動、守時，能夠同時推進多項任務。"],"growth":[{"title":"品牌全貌","text":"參與策略到執行的完整鏈路。"},{"title":"跨團隊協作","text":"與設計、商業和數碼化團隊共同工作。"},{"title":"專業積累","text":"建立內容與傳播數據作品集。"}]},"graduate-management-trainee":{"id":"graduate-management-trainee","title":"青穗計劃管理培訓生","department":"應屆生計劃","type":"管理培訓生","experience":"不限","freshGraduate":true,"location":"香港 · 多城市","workMode":"輪崗安排","posted":"7 天前","summary":"通過三段式培養與跨業務輪崗，找到專業方向，並在真實項目中建立第一份職業積累。","lead":"這不是一條被完全寫好的路線。我們提供結構、導師和真實項目，而你需要在輪崗中逐漸確認自己擅長什麼、願意長期投入什麼。","responsibilities":["完成業務全景學習、職位導師匹配與基礎能力課程。","在至少兩個業務方向參與真實項目並承擔具體模塊。","參與季度檢討，輸出個人成長記錄與階段目標。","根據輪崗表現與個人意願進入更聚焦的發展通道。"],"requirements":["2025—2027 年應屆畢業生，本科或以上學歷。","專業不限，對城市發展、商業運營、數碼化或綜合職能有興趣。","具備主動溝通、問題拆解與團隊協作能力。","能夠接受業務城市間輪崗安排。"],"growth":[{"title":"三段路徑","text":"入局、深耕、領跑，目標清晰可驗證。"},{"title":"雙導師制","text":"業務導師與發展夥伴共同支持。"},{"title":"跨業務視野","text":"在真實項目中建立組織全局觀。"}]},"commercial-data-analyst":{"id":"commercial-data-analyst","title":"商業數據分析師","department":"數碼化與技術","type":"全職","experience":"0-2年","freshGraduate":true,"location":"香港 · 中環","workMode":"混合辦公","posted":"6 天前","summary":"把商業運營數據轉化為可讀、可行動的洞察，為經營決策提供穩定的事實基礎。","lead":"數據工作的價值不在圖表數量，而在是否幫助業務更早發現問題。我們希望你把分析做得清楚，也願意持續追問結論。","responsibilities":["建立並維護商業運營指標看板與數據口徑。","分析客流、銷售、會員與活動表現，輸出階段性洞察。","與業務團隊共同定義問題，驗證假設。","沉澱分析模板，提高團隊決策效率。"],"requirements":["統計學、商業分析、計算機或相關背景。","熟悉 SQL 與一種常用數據分析工具。","能清晰呈現分析過程與業務結論。","歡迎應屆畢業生或 1—2 年經驗候選人。"],"growth":[{"title":"業務理解","text":"直接參與經營例會與指標討論。"},{"title":"工具方法","text":"學習數據建模與可視化最佳實踐。"},{"title":"長期路徑","text":"可向高級商業分析師發展。"}]},"talent-development-partner":{"id":"talent-development-partner","title":"人才發展夥伴","department":"綜合職能","type":"全職","experience":"3-5年","freshGraduate":false,"location":"香港 · 中環","workMode":"混合辦公","posted":"8 天前","summary":"與業務負責人共同識別關鍵能力缺口，設計學習項目與人才對話機制，支持組織長期成長。","lead":"你將站在業務與人才之間，不把培訓當作交付課程，而是幫助團隊找到真正能改變工作方式的學習方案。","responsibilities":["診斷業務團隊的能力需求與關鍵職位發展路徑。","設計混合式學習項目，跟進學習成果落地。","支持績效對話、導師計劃與內部人才流動。","評估學習項目效果，形成可持續改進機制。"],"requirements":["3—5 年人才發展、組織發展或學習項目經驗。","具備需求診斷、課程設計與項目運營能力。","能與業務負責人建立信任，推動共識。","對數據與學習體驗都有基本敏感度。"],"growth":[{"title":"組織視角","text":"參與人才標準與繼任計劃討論。"},{"title":"方法多樣","text":"實踐工作坊、行動學習與導師制。"},{"title":"長期路徑","text":"可向人才發展負責人發展。"}]},"sustainability-specialist":{"id":"sustainability-specialist","title":"可持續發展專員","department":"工程與項目","type":"全職","experience":"0-2年","freshGraduate":true,"location":"香港 · 中環","workMode":"混合辦公","posted":"9 天前","summary":"支持可持續議題的數據整理、項目協調與內部傳播，讓長期責任進入日常經營。","lead":"可持續不是一份單獨的報告，而是一連串選擇。你會在項目協調中學習，如何把願景變成可檢查、可推進的行動。","responsibilities":["收集並整理可持續相關數據與項目進展。","協調跨部門議題小組，跟進行動項閉環。","參與可持續報告、內外部溝通材料準備。","關注行業標準與最佳實踐，形成知識簡報。"],"requirements":["環境、城市研究、公共政策或相關背景。","具備資料整合、數據分析與書面表達能力。","能夠理解不同部門的業務語言。","歡迎應屆畢業生或 1—2 年經驗候選人。"],"growth":[{"title":"議題深度","text":"參與長期可持續項目與標準研究。"},{"title":"多方協調","text":"與工程、商業與外部機構共同推進。"},{"title":"長期路徑","text":"可向可持續發展經理發展。"}]},"finance-planning-analyst":{"id":"finance-planning-analyst","title":"財務計劃與分析主任","department":"綜合職能","type":"全職","experience":"0-2年","freshGraduate":true,"location":"香港 · 中環","workMode":"混合辦公","posted":"10 天前","summary":"參與業務計劃、預算與經營分析，用清晰數據幫助團隊理解資源應投向哪裏。","lead":"財務分析不只是彙總數字。我們希望你能夠連接數字背後的業務動作，幫助決策者看見選項和代價。","responsibilities":["支持業務預算編制、滾動預測與差異分析。","維護管理報表口徑，提升數據準確性與及時性。","參與項目投資回報與經營效率分析。","協助財務數碼化工具的需求梳理與測試。"],"requirements":["財務、會計、經濟或相關背景。","熟悉 Excel 與基本財務模型，瞭解 SQL 更佳。","具備嚴謹、細緻與主動核對的習慣。","歡迎應屆畢業生或 1—2 年經驗候選人。"],"growth":[{"title":"業務連接","text":"與多業務團隊共同完成計劃與檢討。"},{"title":"專業認證","text":"獲得相關專業資格學習支持。"},{"title":"長期路徑","text":"可向業務財務夥伴發展。"}]},"leasing-business-manager":{"id":"leasing-business-manager","title":"商業租賃業務經理","department":"商業運營","type":"全職","experience":"6年以上","freshGraduate":false,"location":"香港 · 尖沙咀","workMode":"現場辦公","posted":"11 天前","summary":"負責商業空間的品牌組合、租賃談判與租户關係，讓空間內容與長期運營目標相互成就。","lead":"好的租賃不是完成一張合同，而是為空間找到適合的內容，也為商户找到可持續的位置。你需要商業判斷、溝通耐心和長期視角。","responsibilities":["制定租賃策略與品牌組合方案。","推進重點租户談判、合同條款與交付安排。","維護租户關係，跟進經營表現與續租決策。","結合市場趨勢提出空間內容調整建議。"],"requirements":["6 年以上商業租賃、零售拓展或商業地產經驗。","熟悉商業租賃流程、市場數據與合同要點。","具備成熟的談判能力與客户關係網絡。","能夠平衡商業回報與空間長期定位。"],"growth":[{"title":"策略責任","text":"參與重點商業空間定位決策。"},{"title":"關係資產","text":"建立跨行業租户與品牌網絡。"},{"title":"長期路徑","text":"可向商業運營負責人發展。"}]},"brand-design-intern":{"id":"brand-design-intern","title":"品牌設計實習生","department":"市場營銷與品牌","type":"實習","experience":"不限","freshGraduate":true,"location":"香港 · 灣仔","workMode":"混合辦公","posted":"12 天前","summary":"參與品牌傳播物料、活動視覺與數字內容設計，在真實任務中建立專業作品集。","lead":"你不只是做輔助裁切。我們希望實習生在真實傳播項目中參與構思、執行和修改，並理解設計決策背後的品牌與傳播目標。","responsibilities":["根據品牌表達規範完成傳播物料與數字內容設計。","參與活動視覺的方向探索與版本迭代。","與營銷、內容團隊溝通需求與修改意見。","整理設計檔案與規範，支持團隊知識沉澱。"],"requirements":["視覺傳達、平面設計或相關專業在讀或應屆。","熟悉常用平面設計與原型工具。","提交可展示視覺判斷與執行能力的作品集。","每週可穩定實習不少於三天。"],"growth":[{"title":"真實項目","text":"參與可對外發布的品牌物料。"},{"title":"設計反饋","text":"獲得資深設計夥伴的定期評審。"},{"title":"作品積累","text":"形成可公開呈現的實習作品集。"}]}},
+        "en": {"city-development-manager":{"title":"Senior City Planning Manager","summary":"Lead the planning scope, resource cadence, and multi-party communication for urban renewal projects, turning long-term value into an executable plan.","lead":"You will work with city research, design, and project teams to turn the potential of complex sites into a clear, testable delivery plan. This role requires a long view and a willingness to go into the detail.","responsibilities":["Own the planning scope, stage goals, and risk register for priority urban renewal projects.","Coordinate design, engineering, finance, and external partners so key decisions are made on time.","Create a shared project information view so different disciplines work from the same facts.","Join project retrospectives and capture reusable planning methods and judgment frameworks."],"requirements":["6+ years in urban development, architectural planning, or large-scale project management.","Able to combine policy, market, and spatial conditions into an executable plan.","Strong cross-disciplinary communication and the ability to drive decisions with incomplete information.","Commercial judgment combined with care for the long-term impact of a project on the city."],"growth":[{"title":"Project complexity","text":"Enter priority projects involving multiple business teams."},{"title":"Visible decisions","text":"Present and own planning judgments in key reviews."},{"title":"Long-term path","text":"Grow toward a city development project lead."}]},"retail-operations-supervisor":{"title":"Commercial Operations Supervisor","summary":"Own the daily quality, merchant collaboration, and on-site experience of a commercial space so business results and service reputation improve together.","lead":"This role needs both data literacy and regular time on site. You will work with merchants, property teams, and customer service to maintain a commercial space that feels considered and human.","responsibilities":["Set daily operating standards and service inspection mechanisms for the commercial space.","Analyse footfall, sales, and experience data and propose focused improvements.","Coordinate merchant needs with property delivery and close issues end to end.","Support festivals, space changes, and new merchant openings."],"requirements":["3-5 years in commercial operations, retail management, or customer experience.","Data-aware and able to turn operational problems into concrete improvements.","Calm and professional when handling on-site conflicts.","Comfortable with flexible scheduling and multiple priorities."],"growth":[{"title":"Business view","text":"Experience the full operating cycle of a commercial space."},{"title":"Management practice","text":"Lead an on-site team to deliver service quality goals."},{"title":"Long-term path","text":"Progress toward a commercial operations manager."}]},"digital-product-manager":{"title":"Digital Product Manager","summary":"Translate internal business needs and user tasks into a clear product direction, then work with design and engineering from validation to launch.","lead":"You will do more than write requirements; you will need to ask the right questions. We care most about finding a direction genuinely worth building when resources are limited.","responsibilities":["Clarify business goals and user tasks, then define priority and validation paths.","Work with experience design, engineering, and data teams to ship the solution.","Track product metrics continuously and iterate with real feedback.","Document product decisions to reduce repeated explanation and hidden cost."],"requirements":["3-5 years in digital product, project, or experience design.","Able to understand business processes and explain complex plans simply.","Data and experimentation mindset rather than taste-led decisions.","Cross-team delivery experience with clear expectation and pace management."],"growth":[{"title":"End-to-end practice","text":"Experience a full product cycle from discovery to release."},{"title":"Influence","text":"Contribute to the business digital roadmap."},{"title":"Long-term path","text":"Progress toward senior product manager or product lead."}]},"frontend-experience-engineer":{"title":"Frontend Experience Engineer","summary":"Build interfaces for internal services and customer-facing products with attention to performance, accessibility, and maintainable interaction quality.","lead":"We want engineering and design at the same table. You will implement components, pages, and experience details while contributing your own technical judgment.","responsibilities":["Implement responsive interfaces and interactions with modern frontend technologies.","Review interaction states, edge cases, and accessibility with design.","Contribute to component standards, performance work, and code review.","Document technical approaches so the team repeats fewer mistakes."],"requirements":["Solid HTML, CSS, and JavaScript foundations.","At least one shipped project or an ongoing portfolio of development work.","Attention to readable code, responsive behaviour, and basic accessibility.","Willing to communicate proactively; graduates are welcome."],"growth":[{"title":"Mentor support","text":"Pair with senior engineers on projects."},{"title":"Real releases","text":"Contribute to versions users can experience."},{"title":"Learning fund","text":"Support for certification and frontend courses."}]},"brand-marketing-executive":{"title":"Brand Marketing Executive","summary":"Take part in brand content planning, campaign execution, and performance analysis, bringing the brand story to real customer touchpoints.","lead":"A brand is more than a tagline; it is a series of choices people experience. You will learn how to stay consistent while leaving room for change.","responsibilities":["Support brand campaign plans, content themes, and publishing rhythm.","Coordinate design, content, and channel partners to produce campaign assets.","Organise campaign data and audience feedback and propose improvements.","Maintain brand expression guidelines across touchpoints."],"requirements":["1+ year in brand, content, or digital marketing; strong graduates considered.","Clear written expression and basic visual judgment.","Understand social content ecosystems and performance metrics.","Proactive, reliable, and able to move several tasks forward."],"growth":[{"title":"Full brand view","text":"See the full chain from strategy to execution."},{"title":"Cross-team work","text":"Collaborate with design, commercial, and digital teams."},{"title":"Professional portfolio","text":"Build a content and campaign data portfolio."}]},"graduate-management-trainee":{"title":"Green Shoots Management Trainee","summary":"Find a professional direction through a three-stage development path and cross-business rotations, building your first real career foundation.","lead":"This is not a fully pre-written route. We provide structure, mentors, and real projects; you confirm what you are good at and what you want to invest in over time.","responsibilities":["Complete a business overview, mentor matching, and foundational capability courses.","Work on real projects in at least two business directions and own specific modules.","Join quarterly reviews and document personal growth and stage goals.","Move into a focused development track based on rotation results and your preference."],"requirements":["Graduate from 2025-2027 with a bachelor's degree or above.","Open to all majors with interest in urban development, commercial operations, digital, or corporate functions.","Strong communication, problem decomposition, and teamwork.","Willing to rotate across business cities."],"growth":[{"title":"Three-stage path","text":"Enter, Deepen, and Lead with clear, testable goals."},{"title":"Dual mentors","text":"A business mentor and a development partner."},{"title":"Cross-business view","text":"Build a whole-organisation perspective through real work."}]},"commercial-data-analyst":{"title":"Commercial Data Analyst","summary":"Turn commercial operating data into readable, actionable insight that gives business decisions a stable factual base.","lead":"Data work is valuable when it helps the business spot problems earlier. We want analysis that is clear and conclusions that continue to be questioned.","responsibilities":["Build and maintain commercial operating dashboards and data definitions.","Analyse footfall, sales, membership, and campaign performance and produce insights.","Define questions and test hypotheses with business teams.","Create reusable analysis templates to improve decision speed."],"requirements":["Background in statistics, business analytics, computer science, or related fields.","Familiar with SQL and at least one common data analysis tool.","Able to present analytical process and business conclusions clearly.","Graduates and candidates with 1-2 years of experience are welcome."],"growth":[{"title":"Business understanding","text":"Join operating reviews and metric discussions."},{"title":"Tools and methods","text":"Learn data modelling and visualisation best practice."},{"title":"Long-term path","text":"Progress toward a senior commercial analyst."}]},"talent-development-partner":{"title":"Talent Development Partner","summary":"Work with business leaders to identify capability gaps and design learning programmes and talent conversations that support long-term growth.","lead":"You will sit between business and people teams, treating learning as a way to change how teams work rather than simply delivering courses.","responsibilities":["Diagnose team capability needs and key-role development paths.","Design blended learning programmes and follow learning transfer.","Support performance conversations, mentoring, and internal mobility.","Evaluate learning impact and build a cycle of improvement."],"requirements":["3-5 years in talent development, organisation development, or learning programmes.","Skills in needs diagnosis, course design, and programme operations.","Able to build trust with business leaders and move conversations to agreement.","Sensitive to both data and the learner experience."],"growth":[{"title":"Organisation view","text":"Contribute to talent standards and succession discussions."},{"title":"Varied methods","text":"Use workshops, action learning, and mentorship."},{"title":"Long-term path","text":"Progress toward a talent development lead."}]},"sustainability-specialist":{"title":"Sustainability Specialist","summary":"Support data collection, project coordination, and internal communication for sustainability so long-term responsibility enters daily operations.","lead":"Sustainability is not a standalone report; it is a sequence of choices. You will learn through project coordination how to turn vision into checkable action.","responsibilities":["Collect and organise sustainability data and project progress.","Coordinate cross-department topic groups and close action items.","Support sustainability reports and internal and external communications.","Follow industry standards and best practice and create knowledge briefs."],"requirements":["Background in environment, urban studies, public policy, or related fields.","Strong research, data, and written communication skills.","Able to understand business language across departments.","Graduates and candidates with 1-2 years of experience are welcome."],"growth":[{"title":"Issue depth","text":"Join long-term sustainability projects and standards research."},{"title":"Multi-party coordination","text":"Work with engineering, commercial, and external bodies."},{"title":"Long-term path","text":"Progress toward a sustainability manager."}]},"finance-planning-analyst":{"title":"Financial Planning and Analysis Executive","summary":"Support business planning, budgeting, and operating analysis so clear data helps teams see where resources should go.","lead":"Financial analysis is more than summing numbers. We want you to connect the business action behind each figure and help decision makers see choices and trade-offs.","responsibilities":["Support budget preparation, rolling forecasts, and variance analysis.","Maintain management reporting definitions and improve accuracy and timeliness.","Join project return and operating efficiency analysis.","Help define and test finance digitalisation tools."],"requirements":["Background in finance, accounting, economics, or related fields.","Familiar with Excel and basic financial models; SQL is a plus.","Rigorous, detail-oriented, and proactive in checking work.","Graduates and candidates with 1-2 years of experience are welcome."],"growth":[{"title":"Business connection","text":"Plan and review with multiple business teams."},{"title":"Professional certification","text":"Support for relevant qualification studies."},{"title":"Long-term path","text":"Progress toward a business finance partner."}]},"leasing-business-manager":{"title":"Leasing Business Manager","summary":"Own the brand mix, leasing negotiations, and tenant relationships for commercial spaces so content and long-term operating goals support each other.","lead":"Good leasing is not just completing a contract; it is finding the right content for a space and a sustainable position for a merchant. You need commercial judgment, patience, and a long view.","responsibilities":["Set leasing strategy and brand mix plans.","Lead priority tenant negotiations, contract terms, and handover arrangements.","Maintain tenant relationships and follow trading performance and renewal decisions.","Propose space mix changes using market trends."],"requirements":["6+ years in commercial leasing, retail expansion, or commercial property.","Familiar with leasing processes, market data, and contract essentials.","Mature negotiation skills and a strong client relationship network.","Able to balance commercial return with the long-term positioning of a space."],"growth":[{"title":"Strategic ownership","text":"Join positioning decisions for priority commercial spaces."},{"title":"Relationship asset","text":"Build a tenant and brand network across industries."},{"title":"Long-term path","text":"Progress toward a commercial operations lead."}]},"brand-design-intern":{"title":"Brand Design Intern","summary":"Contribute to brand communications, event visuals, and digital content while building a professional portfolio through real assignments.","lead":"You are not here just to crop assets. We want interns to participate in concepting, execution, and revision, and to understand the brand and communication goals behind design decisions.","responsibilities":["Create campaign and digital content following brand expression guidelines.","Explore visual directions and iterate versions for events.","Discuss requirements and revisions with marketing and content teams.","Organise design files and standards to support shared team knowledge."],"requirements":["Currently studying or recently graduated in visual communication, graphic design, or related fields.","Familiar with common graphic design and prototyping tools.","Portfolio showing visual judgment and execution.","Available for a stable internship of at least three days per week."],"growth":[{"title":"Real projects","text":"Contribute to brand materials that can be published."},{"title":"Design feedback","text":"Regular reviews with senior design partners."},{"title":"Portfolio","text":"Build a public internship portfolio."}]}}
+      };
+      var jobCategoryTranslations = {
+        "zh-HK": {"工程与项目":"工程與項目","全职":"全職","6年以上":"6年以上","香港 · 中环":"香港 · 中環","现场办公":"現場辦公","2 天前":"2 天前","商业运营":"商業運營","3-5年":"3-5年","香港 · 尖沙咀":"香港 · 尖沙咀","5 天前":"5 天前","数字化与技术":"數碼化與技術","混合办公":"混合辦公","1 天前":"1 天前","0-2年":"0-2年","香港 · 九龙湾":"香港 · 九龍灣","4 天前":"4 天前","市场营销与品牌":"市場營銷與品牌","香港 · 湾仔":"香港 · 灣仔","3 天前":"3 天前","应届生计划":"應屆生計劃","管理培训生":"管理培訓生","不限":"不限經驗","香港 · 多城市":"香港 · 多城市","轮岗安排":"輪崗安排","7 天前":"7 天前","6 天前":"6 天前","综合职能":"綜合職能","8 天前":"8 天前","9 天前":"9 天前","10 天前":"10 天前","11 天前":"11 天前","实习":"實習","12 天前":"12 天前"},
+        "en": {"工程与项目":"Engineering & Projects","商业运营":"Commercial Operations","数字化与技术":"Digital & Technology","市场营销与品牌":"Marketing & Brand","综合职能":"Corporate Functions","应届生计划":"Graduate Programme","全职":"Full-time","管理培训生":"Management Trainee","实习":"Internship","不限":"No experience required","0-2年":"0-2 years","3-5年":"3-5 years","6年以上":"6+ years","香港 · 中环":"Hong Kong · Central","香港 · 尖沙咀":"Hong Kong · Tsim Sha Tsui","香港 · 九龙湾":"Hong Kong · Kowloon Bay","香港 · 湾仔":"Hong Kong · Wan Chai","香港 · 多城市":"Hong Kong · Multiple cities","现场办公":"On-site","混合办公":"Hybrid","轮岗安排":"Rotational placement","2 天前":"2 days ago","5 天前":"5 days ago","1 天前":"1 day ago","4 天前":"4 days ago","3 天前":"3 days ago","7 天前":"7 days ago","6 天前":"6 days ago","8 天前":"8 days ago","9 天前":"9 days ago","10 天前":"10 days ago","11 天前":"11 days ago","12 天前":"12 days ago"}
+      };
+      var successApplicantName = "";
+      var canonicalMetaDescription = document.querySelector('meta[name="description"]').getAttribute("content");
+      var textSourceCache = new WeakMap();
+      var attributeSourceCache = new WeakMap();
+      var dynamicTranslationIds = {
+        "jobGrid": true,
+        "resultCount": true,
+        "detailJobTitle": true,
+        "detailMeta": true,
+        "detailMain": true,
+        "applySubtitle": true,
+        "successMessage": true,
+        "submitApplication": true
+      };
+
+      var staticTextRecords = [];
+      var staticAttributeRecords = [];
+      var staticTranslationIndexReady = false;
+      var languageButtons = Array.prototype.slice.call(document.querySelectorAll("[data-set-lang]"));
+
+      function getStoredLanguage() {
+        try {
+          var stored = window.localStorage.getItem(languageStorageKey);
+          return supportedLangs.indexOf(stored) === -1 ? "zh-CN" : stored;
+        } catch (error) {
+          return "zh-CN";
+        }
+      }
+
+      function uiText(source) {
+        var translated = uiTranslations[currentLang] && uiTranslations[currentLang][source];
+        if (typeof translated === "string") return translated;
+        if (currentLang === "en" && !/[\u3400-\u9fff]/.test(source)) return source;
+        return source;
+      }
+
+      function localizeJob(job) {
+        var translated = jobTranslations[currentLang] && jobTranslations[currentLang][job.id];
+        if (!translated) return job;
+        var localized = {};
+        Object.keys(job).forEach(function (key) {
+          var value = translated[key] === undefined ? job[key] : translated[key];
+          if (["department", "type", "experience", "location", "workMode", "posted"].indexOf(key) !== -1) {
+            var categoryValue = jobCategoryTranslations[currentLang] && jobCategoryTranslations[currentLang][job[key]];
+            if (typeof categoryValue === "string") value = categoryValue;
+          }
+          localized[key] = value;
+        });
+        localized.id = job.id;
+        localized.freshGraduate = job.freshGraduate;
+        return localized;
+      }
+
+      function getActiveViewName() {
+        if (detailView.classList.contains("active")) return "detail";
+        if (jobsView.classList.contains("active")) return "jobs";
+        return "home";
+      }
+
+      function updateDocumentTitle(viewName) {
+        if (viewName === "jobs") {
+          document.title = uiText("招聘岗位") + " | " + uiText("新世界人才中心");
+        } else if (viewName === "detail") {
+          var title = currentJob ? localizeJob(currentJob).title : uiText("岗位详情");
+          document.title = title + " | " + uiText("新世界人才中心");
+        } else {
+          document.title = uiText("新世界人才中心") + " | " + uiText("招聘门户重构原型");
+        }
+      }
+
+      function updateSubmitButton() {
+        submitButton.innerHTML = uiText("提交申请") + ' <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>';
+      }
+
+      function updateFileLabel() {
+        var file = resumeInput.files && resumeInput.files[0];
+        var fileCopy = document.querySelector(".file-copy strong");
+        var fileHint = document.querySelector(".file-copy span");
+        if (file) {
+          if (fileCopy) fileCopy.textContent = uiText("已选择：") + file.name;
+          if (fileHint) fileHint.textContent = uiText("课程原型不会上传该文件");
+        } else {
+          if (fileCopy) fileCopy.textContent = uiText("选择简历文件");
+          if (fileHint) fileHint.textContent = uiText("PDF、DOC 或 DOCX，不超过 10MB");
+        }
+      }
+
+      function updateSuccessMessage() {
+        if (successApplicantName && !formSuccess.hidden) {
+          successMessage.textContent = successApplicantName + uiText("，你的申请界面已完整走通。演示环境未发送任何数据，也不会上传文件。");
+        }
+      }
+
+      function clearApplicationErrors() {
+        document.querySelectorAll(".error-message").forEach(function (node) {
+          node.textContent = "";
+        });
+        document.querySelectorAll("[aria-invalid='true']").forEach(function (field) {
+          field.setAttribute("aria-invalid", "false");
+        });
+        var consentLabel = document.getElementById("consentCheck").closest(".consent");
+        if (consentLabel) consentLabel.style.color = "var(--slate)";
+      }
+
+      function refreshApplicationErrors() {
+        document.querySelectorAll("[aria-invalid='true']").forEach(validateField);
+      }
+
+      function isDynamicTranslationNode(node) {
+        var element = node.nodeType === Node.TEXT_NODE ? node.parentElement : node;
+        while (element && element !== document.body) {
+          if (element.id && dynamicTranslationIds[element.id]) return true;
+          if (element.matches && element.matches(".file-copy strong, .file-copy span")) return true;
+          element = element.parentElement;
+        }
+        return false;
+      }
+
+      function canonicalText(node) {
+        if (!textSourceCache.has(node)) textSourceCache.set(node, node.nodeValue);
+        return textSourceCache.get(node);
+      }
+
+      function canonicalAttribute(element, name) {
+        var cache = attributeSourceCache.get(element) || {};
+        if (!(name in cache)) cache[name] = element.getAttribute(name);
+        attributeSourceCache.set(element, cache);
+        return cache[name];
+      }
+
+      function buildStaticTranslationIndex() {
+        if (staticTranslationIndexReady) return;
+
+        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+        while (walker.nextNode()) {
+          var node = walker.currentNode;
+          var parent = node.parentElement;
+          if (!parent || parent.closest("script,style") || isDynamicTranslationNode(node)) continue;
+          var source = canonicalText(node);
+          if (!/\S/.test(source)) continue;
+          var leading = source.match(/^\s*/)[0];
+          var trailing = source.match(/\s*$/)[0];
+          var core = source.slice(leading.length, source.length - trailing.length);
+          if (!core) continue;
+          staticTextRecords.push({ node: node, leading: leading, core: core, trailing: trailing });
+        }
+
+        document.querySelectorAll("[aria-label],[placeholder],[alt],[title]").forEach(function (element) {
+          if (isDynamicTranslationNode(element)) return;
+          ["aria-label", "placeholder", "alt", "title"].forEach(function (name) {
+            if (!element.hasAttribute(name)) return;
+            staticAttributeRecords.push({ element: element, name: name, source: canonicalAttribute(element, name) });
+          });
+        });
+        staticTranslationIndexReady = true;
+      }
+
+      function applyStaticTranslations() {
+        buildStaticTranslationIndex();
+        for (var i = 0; i < staticTextRecords.length; i += 1) {
+          var record = staticTextRecords[i];
+          var translated = uiText(record.core);
+          if (translated !== record.core) record.node.nodeValue = record.leading + translated + record.trailing;
+        }
+        for (var j = 0; j < staticAttributeRecords.length; j += 1) {
+          var attribute = staticAttributeRecords[j];
+          var value = uiText(attribute.source);
+          if (value !== attribute.source) attribute.element.setAttribute(attribute.name, value);
+        }
+      }
+
+      function setLanguage(lang) {
+        if (supportedLangs.indexOf(lang) === -1) lang = "zh-CN";
+        currentLang = lang;
+        document.documentElement.lang = currentLang;
+        document.querySelector('meta[name="description"]').setAttribute("content", uiText(canonicalMetaDescription));
+        applyStaticTranslations();
+        setMenuOpen(mobileMenu.classList.contains("open"));
+
+        languageButtons.forEach(function (button) {
+          var isActive = button.getAttribute("data-set-lang") === currentLang;
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute("aria-pressed", String(isActive));
+        });
+
+        if (jobsView.classList.contains("active")) filterJobs();
+        if (detailView.classList.contains("active") && currentJob) renderJobDetail(currentJob.id);
+
+        refreshApplicationErrors();
+        updateSubmitButton();
+        updateFileLabel();
+        updateSuccessMessage();
+        updateDocumentTitle(getActiveViewName());
+
+        try {
+          window.localStorage.setItem(languageStorageKey, currentLang);
+        } catch (error) {}
+      }
+
+      var homeView = document.getElementById("view-home");
+      var jobsView = document.getElementById("view-jobs");
+      var detailView = document.getElementById("view-detail");
+      var jobGrid = document.getElementById("jobGrid");
+      var resultCount = document.getElementById("resultCount");
+      var emptyState = document.getElementById("emptyState");
+      var searchInput = document.getElementById("jobSearch");
+      var searchClear = document.getElementById("searchClear");
+      var departmentFilter = document.getElementById("departmentFilter");
+      var typeFilter = document.getElementById("typeFilter");
+      var experienceFilter = document.getElementById("experienceFilter");
+      var graduateFilter = document.getElementById("graduateFilter");
+      var mobileMenu = document.getElementById("mobileMenu");
+      var menuButton = document.getElementById("menuButton");
+      var menuIconUse = document.querySelector("#menuIcon use");
+      var detailJobTitle = document.getElementById("detailJobTitle");
+      var detailMeta = document.getElementById("detailMeta");
+      var detailMain = document.getElementById("detailMain");
+      var applicationForm = document.getElementById("applicationForm");
+      var formSuccess = document.getElementById("formSuccess");
+      var successMessage = document.getElementById("successMessage");
+      var submitButton = document.getElementById("submitApplication");
+      var applySubtitle = document.getElementById("applySubtitle");
+      var currentJob = null;
+
+      function setMenuOpen(open) {
+        mobileMenu.classList.toggle("open", open);
+        mobileMenu.setAttribute("aria-hidden", String(!open));
+        menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.setAttribute("aria-label", uiText(open ? "关闭菜单" : "打开菜单"));
+        if (menuIconUse) {
+          menuIconUse.setAttribute("href", open ? "#icon-x" : "#icon-menu");
+        }
+        document.body.classList.toggle("menu-open", open);
+      }
+
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+
+      function setActiveNav(viewName) {
+        document.querySelectorAll("[data-nav]").forEach(function (link) {
+          link.classList.toggle("is-active", link.getAttribute("data-nav") === viewName);
+        });
+      }
+
+      function showView(name) {
+        var views = [homeView, jobsView, detailView];
+        views.forEach(function (view) {
+          view.classList.toggle("active", view.id === "view-" + name);
+        });
+
+        if (name === "jobs") {
+          renderJobs();
+        }
+
+        setActiveNav(name === "home" || name === "growth" || name === "stories" || name === "benefits" || name === "philosophy" ? "home" : name);
+        updateDocumentTitle(name);
+        setMenuOpen(false);
+        scrollToTop();
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function filterJobs() {
+        var query = searchInput.value.trim().toLowerCase();
+        var department = departmentFilter.value;
+        var type = typeFilter.value;
+        var experience = experienceFilter.value;
+        var graduatesOnly = graduateFilter.checked;
+
+        var matches = jobs.filter(function (job) {
+          var displayJob = localizeJob(job);
+          var haystack = (displayJob.title + " " + displayJob.department + " " + displayJob.location + " " + displayJob.summary).toLowerCase();
+          var matchesQuery = !query || haystack.indexOf(query) !== -1;
+          var matchesDepartment = department === "all" || job.department === department;
+          var matchesType = type === "all" || job.type === type;
+          var matchesExperience = experience === "all" || job.experience === experience;
+          var matchesGraduate = !graduatesOnly || job.freshGraduate;
+          return matchesQuery && matchesDepartment && matchesType && matchesExperience && matchesGraduate;
+        });
+
+        renderJobGrid(matches);
+      }
+
+      function renderJobs() {
+        renderJobGrid(jobs);
+      }
+
+      function renderJobGrid(matches) {
+        jobGrid.innerHTML = matches.map(function (job) {
+          var displayJob = localizeJob(job);
+          return (
+            '<article class="job-card" role="button" tabindex="0" data-job-id="' + escapeHtml(job.id) + '" aria-label="' + escapeHtml(uiText("查看岗位：") + displayJob.title) + '">' +
+              '<div class="job-card-top">' +
+                '<span class="job-category">' + escapeHtml(displayJob.department) + '</span>' +
+                '<span class="job-type">' + escapeHtml(displayJob.type) + '</span>' +
+              '</div>' +
+              '<h3>' + escapeHtml(displayJob.title) + '</h3>' +
+              '<p class="job-summary">' + escapeHtml(displayJob.summary) + '</p>' +
+              '<div class="job-meta">' +
+                '<span><svg class="icon" aria-hidden="true"><use href="#icon-map-pin"></use></svg>' + escapeHtml(displayJob.location) + '</span>' +
+                '<span><svg class="icon" aria-hidden="true"><use href="#icon-briefcase"></use></svg>' + escapeHtml(displayJob.experience) + '</span>' +
+                '<span><svg class="icon" aria-hidden="true"><use href="#icon-clock"></use></svg>' + escapeHtml(displayJob.posted) + '</span>' +
+              '</div>' +
+              '<span class="job-arrow" aria-hidden="true"><svg class="icon"><use href="#icon-arrow-right"></use></svg></span>' +
+            '</article>'
+          );
+        }).join("");
+
+        resultCount.innerHTML = '<strong>' + matches.length + '</strong> ' + uiText("个匹配岗位");
+        emptyState.hidden = matches.length !== 0;
+        searchClear.hidden = searchInput.value.trim().length === 0;
+      }
+
+      function renderJobDetail(jobId) {
+        var job = jobs.find(function (item) {
+          return item.id === jobId;
+        });
+
+        if (!job) return false;
+
+        currentJob = job;
+        var displayJob = localizeJob(job);
+        detailJobTitle.textContent = displayJob.title;
+        applySubtitle.textContent = uiText("申请岗位：") + displayJob.title + uiText("。提交后将在演示环境中生成申请记录，不会上传任何文件或发送至服务器。");
+
+        detailMeta.innerHTML = [
+          metaItem("#icon-briefcase", displayJob.department),
+          metaItem("#icon-layers", displayJob.type),
+          metaItem("#icon-clock", displayJob.experience),
+          metaItem("#icon-map-pin", displayJob.location),
+          metaItem("#icon-building", displayJob.workMode),
+          metaItem("#icon-calendar", uiText("发布于 ") + displayJob.posted)
+        ].join("");
+
+        detailMain.innerHTML =
+          '<article class="detail-panel">' +
+            '<h2>' + uiText("岗位介绍") + '</h2>' +
+            '<p class="lead">' + escapeHtml(displayJob.lead) + '</p>' +
+          '</article>' +
+          '<article class="detail-panel">' +
+            '<h2>' + uiText("你将负责") + '</h2>' +
+            '<ul class="check-list">' + displayJob.responsibilities.map(function (item) {
+              return '<li>' + escapeHtml(item) + '</li>';
+            }).join("") + '</ul>' +
+          '</article>' +
+          '<article class="detail-panel">' +
+            '<h2>' + uiText("我们期待") + '</h2>' +
+            '<ul class="check-list">' + displayJob.requirements.map(function (item) {
+              return '<li>' + escapeHtml(item) + '</li>';
+            }).join("") + '</ul>' +
+          '</article>' +
+          '<article class="detail-panel">' +
+            '<h2>' + uiText("成长回报") + '</h2>' +
+            '<div class="growth-strip">' + displayJob.growth.map(function (item) {
+              return '<div><strong>' + escapeHtml(item.title) + '</strong><span>' + escapeHtml(item.text) + '</span></div>';
+            }).join("") + '</div>' +
+          '</article>';
+
+        updateSubmitButton();
+        return true;
+      }
+
+      function resetApplicationState() {
+        formSuccess.hidden = true;
+        applicationForm.hidden = false;
+        applicationForm.reset();
+        clearApplicationErrors();
+        updateSubmitButton();
+        updateFileLabel();
+      }
+
+      function openJob(jobId) {
+        if (!renderJobDetail(jobId)) {
+          location.hash = "#jobs";
+          return;
+        }
+
+        resetApplicationState();
+        showView("detail");
+      }
+
+      function metaItem(iconId, text) {
+        return '<span><svg class="icon" aria-hidden="true"><use href="' + iconId + '"></use></svg>' + escapeHtml(text) + '</span>';
+      }
+
+      function navigateFromHash() {
+        var rawHash = decodeURIComponent(location.hash || "#home");
+        var hash = rawHash.replace(/^#/, "").split("?")[0];
+
+        if (hash.indexOf("job/") === 0) {
+          openJob(hash.slice(4));
+          return;
+        }
+
+        if (hash === "jobs") {
+          showView("jobs");
+          return;
+        }
+
+        var homeSections = ["home", "philosophy", "employer-brand", "growth", "benefits", "stories"];
+        if (homeSections.indexOf(hash) !== -1) {
+          showView("home");
+          if (hash !== "home") {
+            requestAnimationFrame(function () {
+              var target = document.getElementById(hash);
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            });
+          }
+          return;
+        }
+
+        showView("home");
+      }
+
+      function resetFilters() {
+        searchInput.value = "";
+        departmentFilter.value = "all";
+        typeFilter.value = "all";
+        experienceFilter.value = "all";
+        graduateFilter.checked = false;
+        filterJobs();
+      }
+
+      function validateField(field) {
+        var errorNode = document.querySelector('[data-error-for="' + field.id + '"]');
+        var value = field.value.trim();
+        var valid = true;
+        var message = "";
+
+        if (!value) {
+          valid = false;
+          message = uiText("请填写这一项。");
+        } else if (field.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          valid = false;
+          message = uiText("请输入有效的邮箱地址。");
+        } else if (field.type === "tel" && !/^[+\d][\d\s-]{6,}$/.test(value)) {
+          valid = false;
+          message = uiText("请输入有效的手机号码。");
+        } else if (field.type === "file" && field.files && field.files.length === 0) {
+          valid = false;
+          message = uiText("请选择一份简历文件。");
+        } else if (field.id === "coverLetter" && value.length < 20) {
+          valid = false;
+          message = uiText("申请动机请至少写 20 个字。");
+        }
+
+        if (errorNode) {
+          errorNode.textContent = message;
+        }
+        field.setAttribute("aria-invalid", String(!valid));
+        return valid;
+      }
+
+      function validateApplicationForm() {
+        var requiredFields = [
+          document.getElementById("applicantName"),
+          document.getElementById("applicantEmail"),
+          document.getElementById("applicantPhone"),
+          document.getElementById("applicantExperience"),
+          document.getElementById("resumeInput"),
+          document.getElementById("coverLetter")
+        ];
+        var allValid = true;
+        requiredFields.forEach(function (field) {
+          if (!validateField(field)) {
+            allValid = false;
+          }
+        });
+
+        var consent = document.getElementById("consentCheck");
+        if (!consent.checked) {
+          allValid = false;
+          consent.closest(".consent").style.color = "var(--danger)";
+        } else {
+          consent.closest(".consent").style.color = "var(--slate)";
+        }
+
+        return allValid;
+      }
+
+      document.addEventListener("click", function (event) {
+        var routeTrigger = event.target.closest("[data-route]");
+        if (routeTrigger) {
+          if (routeTrigger.hasAttribute("data-filter-jobs")) {
+            var department = routeTrigger.getAttribute("data-filter-jobs");
+            departmentFilter.value = department;
+            typeFilter.value = "all";
+            experienceFilter.value = "all";
+            graduateFilter.checked = false;
+            searchInput.value = "";
+            searchClear.hidden = true;
+          }
+        }
+
+        var jobCard = event.target.closest("[data-job-id]");
+        if (jobCard) {
+          var jobId = jobCard.getAttribute("data-job-id");
+          if (location.hash !== "#job/" + jobId) {
+            location.hash = "#job/" + jobId;
+          } else {
+            openJob(jobId);
+          }
+          return;
+        }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        var jobCard = event.target.closest && event.target.closest("[data-job-id]");
+        if (jobCard && (event.key === "Enter" || event.key === " ")) {
+          event.preventDefault();
+          var jobId = jobCard.getAttribute("data-job-id");
+          if (location.hash !== "#job/" + jobId) {
+            location.hash = "#job/" + jobId;
+          } else {
+            openJob(jobId);
+          }
+        }
+      });
+
+      menuButton.addEventListener("click", function () {
+        setMenuOpen(!mobileMenu.classList.contains("open"));
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && mobileMenu.classList.contains("open")) {
+          setMenuOpen(false);
+          menuButton.focus();
+        }
+      });
+
+      searchInput.addEventListener("input", function () {
+        searchClear.hidden = searchInput.value.trim().length === 0;
+        filterJobs();
+      });
+
+      searchClear.addEventListener("click", function () {
+        searchInput.value = "";
+        searchClear.hidden = true;
+        filterJobs();
+        searchInput.focus();
+      });
+
+      departmentFilter.addEventListener("change", filterJobs);
+      typeFilter.addEventListener("change", filterJobs);
+      experienceFilter.addEventListener("change", filterJobs);
+      graduateFilter.addEventListener("change", filterJobs);
+      document.getElementById("filterReset").addEventListener("click", resetFilters);
+      document.getElementById("clearFilters").addEventListener("click", resetFilters);
+      document.getElementById("emptyReset").addEventListener("click", resetFilters);
+
+      document.getElementById("resumeInput").addEventListener("change", function (event) {
+        var file = event.target.files && event.target.files[0];
+        var fileCopy = event.target.closest(".file-drop").querySelector(".file-copy strong");
+        var fileHint = event.target.closest(".file-drop").querySelector(".file-copy span");
+        if (file) {
+          fileCopy.textContent = uiText("已选择：") + file.name;
+          fileHint.textContent = uiText("课程原型不会上传该文件");
+        } else {
+          fileCopy.textContent = uiText("选择简历文件");
+          fileHint.textContent = uiText("PDF、DOC 或 DOCX，不超过 10MB");
+        }
+        validateField(event.target);
+      });
+
+      applicationForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!validateApplicationForm()) {
+          var firstInvalid = applicationForm.querySelector("[aria-invalid='true']");
+          if (firstInvalid) {
+            firstInvalid.focus();
+          }
+          return;
+        }
+
+        var applicantName = document.getElementById("applicantName").value.trim();
+        successApplicantName = applicantName;
+        updateSuccessMessage();
+        applicationForm.hidden = true;
+        formSuccess.hidden = false;
+        formSuccess.focus();
+        submitButton.disabled = false;
+        updateSubmitButton();
+      });
+
+      document.getElementById("resetApplication").addEventListener("click", function () {
+        applicationForm.reset();
+        formSuccess.hidden = true;
+        applicationForm.hidden = false;
+        clearApplicationErrors();
+        updateFileLabel();
+        window.scrollTo({ top: document.getElementById("apply-form").offsetTop - 90, behavior: "smooth" });
+      });
+
+      document.getElementById("quickApplyButton").addEventListener("click", function (event) {
+        event.preventDefault();
+        var panel = document.getElementById("apply-form");
+        if (panel) {
+          panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+
+      languageButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          setLanguage(button.getAttribute("data-set-lang"));
+        });
+      });
+
+      setLanguage(getStoredLanguage());
+      window.addEventListener("hashchange", navigateFromHash);
+      navigateFromHash();
+    })();
+  </script>
+<script src="assets/editor/editor.js"></script>
+</body>
+</html>
